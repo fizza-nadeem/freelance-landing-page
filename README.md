@@ -53,16 +53,14 @@ Technologies I'm Using
 
 
 
----
 
-## 📬 Connect With Me
+Connect With Me
 
-[![LinkedIn](https://www.linkedin.com/in/fizza-nadeem-41983a369?utm_source=share_via&utm_content=profile&utm_medium=member_android)
-[![GitHub]]([https://github.com/fizza-nadeem])
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/fizza-nadeem-41983a369)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=for-the-badge&logo=github)](https://github.com/fizza-nadeem)
 
----
 
-## 📅 Project Timeline
+Project Timeline
 
 - **Started:** August 2026
 - **Ends:** October 2026
