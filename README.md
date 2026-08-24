@@ -2,15 +2,11 @@
 
 Hi! I'm Fizza Nadeem, and this is my 8-week internship project. I'm building a full freelancing marketplace platform from scratch.
 
----
-
-## 🎯 What I'm Building
+What I'm Building
 
 A platform where freelancers and clients can connect. Think of it like Fiverr or Upwork - but built by me!
 
----
-
-## ✅ Week 1: Landing Page Foundation
+Week 1: Landing Page Foundation
 
 This week I built the foundation of the platform. Here's what I completed:
 
@@ -32,9 +28,7 @@ This week I built the foundation of the platform. Here's what I completed:
 ### Live Demo:
 👉 [View My Live Website](https://fizza-nadeem.github.io/freelance-platform/)
 
----
-
-## 📅 What's Coming Next
+What's Coming Next
 
 | Week | What I'll Build |
 |------|----------------|
@@ -48,7 +42,7 @@ This week I built the foundation of the platform. Here's what I completed:
 
 ---
 
-## 🛠️ Technologies I'm Using
+Technologies I'm Using
 
 - **HTML5** - Structure of the pages
 - **CSS3** - Styling and design
@@ -57,18 +51,14 @@ This week I built the foundation of the platform. Here's what I completed:
 - **Git & GitHub** - Version control
 - **GitHub Pages** - Hosting the live demo
 
----
 
-## 📸 Screenshots
-
-*Coming soon - I'll add screenshots of my progress each week!*
 
 ---
 
 ## 📬 Connect With Me
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/yourprofile)
-[![GitHub](https://img.shields.io/badge/GitHub-black?style=for-the-badge&logo=github)](https://github.com/fizza-nadeem)
+[![LinkedIn](https://www.linkedin.com/in/fizza-nadeem-41983a369?utm_source=share_via&utm_content=profile&utm_medium=member_android)
+[![GitHub]](https://github.com/fizza-nadeem)
 
 ---
 
