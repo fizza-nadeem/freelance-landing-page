@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreelanceHub - Find Freelancers & Jobs</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- ========================================== -->
+    <!-- ========== NAVIGATION BAR ================ -->
+    <!-- ========================================== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-briefcase"></i>
+                <span>FreelanceHub</span>
+            </div>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#freelancers">Find Freelancers</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="#about">About</a></li>
+                <li class="auth-buttons">
+                    <a href="#" class="btn-login">Login</a>
+                    <a href="#" class="btn-register">Register</a>
+                </li>
+            </ul>
+
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========================================== -->
+    <!-- ========== HERO SECTION ================== -->
+    <!-- ========================================== -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Find the Perfect Freelancer for Your Project</h1>
+                <p>Connect with thousands of skilled freelancers from around the world. Post your project and get bids from professionals in minutes.</p>
+                
+                <!-- ===== SEARCH BAR ===== -->
+                <div class="search-container">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search for services..." id="serviceSearch">
+                        <button class="search-btn">Search</button>
+                    </div>
+                    <div class="search-tabs">
+                        <button class="search-tab active">Search Services</button>
+                        <button class="search-tab">Search Freelancers</button>
+                    </div>
+                </div>
+                
+                <div class="hero-buttons">
+                    <a href="#" class="btn-primary">Find Freelancers</a>
+                    <a href="#" class="btn-secondary">Post a Job</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-users" style="font-size: 200px; color: #2563eb;"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- ========== POPULAR CATEGORIES ============ -->
+    <!-- ========================================== -->
+    <section class="categories" id="categories">
+        <div class="container">
+            <h2 class="section-title">Popular Categories</h2>
+            <p class="section-subtitle">Find freelancers in your desired field</p>
+            
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Web Development</h3>
+                    <p>HTML, CSS, JavaScript, React, Angular, PHP</p>
+                    <span class="category-count">1,200+ freelancers</span>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>Graphic Design</h3>
+                    <p>Logo design, branding, illustration, UI/UX</p>
+                    <span class="category-count">850+ freelancers</span>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile App Development</h3>
+                    <p>iOS, Android, React Native, Flutter</p>
+                    <span class="category-count">650+ freelancers</span>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Data Analysis</h3>
+                    <p>Python, SQL, Excel, Power BI, Tableau</p>
+                    <span class="category-count">450+ freelancers</span>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3>Digital Marketing</h3>
+                    <p>SEO, Social Media, Content Marketing, PPC</p>
+                    <span class="category-count">730+ freelancers</span>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Video Production</h3>
+                    <p>Editing, Animation, Motion Graphics, Filming</p>
+                    <span class="category-count">380+ freelancers</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- ========== FEATURES SECTION ============== -->
+    <!-- ========================================== -->
+    <section class="features" id="freelancers">
+        <div class="container">
+            <h2 class="section-title">How FreelanceHub Works</h2>
+            <p class="section-subtitle">We make freelancing simple, secure, and successful</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Verified Freelancers</h3>
+                    <p>All freelancers are thoroughly vetted and verified for quality assurance.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Secure Payments</h3>
+                    <p>Your payments are protected with our secure escrow system.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-comments"></i>
+                    <h3>Easy Communication</h3>
+                    <p>Built-in messaging system for seamless collaboration.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>24/7 Support</h3>
+                    <p>Our support team is always available to help you.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- ========== ABOUT SECTION ================= -->
+    <!-- ========================================== -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title">About FreelanceHub</h2>
+            <div class="about-content">
+                <p>Founded in 2025, FreelanceHub is dedicated to connecting talented freelancers with businesses and individuals who need their skills. We believe in making freelancing accessible, transparent, and rewarding for everyone.</p>
+                <p>Join thousands of satisfied users who have found their perfect freelance match through our platform.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- ========== FOOTER ======================== -->
+    <!-- ========================================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3><i class="fas fa-briefcase"></i> FreelanceHub</h3>
+                    <p>Connecting talent with opportunity</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#freelancers">Freelancers</a>
+                    <a href="#categories">Categories</a>
+                    <a href="#about">About</a>
+                </div>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FreelanceHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
