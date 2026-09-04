@@ -4,6 +4,7 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
@@ -934,5 +935,318 @@ body {
     .profile-stats {
         grid-template-columns: 1fr;
         gap: 15px;
+    }
+}
+/* ========================================== */
+/* ===== WEEK 3: PROFILE & SERVICES ========= */
+/* ========================================== */
+
+/* ===== PROFILE PAGE ===== */
+.profile-page-section {
+    padding: 120px 20px 80px;
+    background: #f8fafc;
+    min-height: 100vh;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+/* ===== PROFILE CONTAINER ===== */
+.profile-container {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== PROFILE DETAILS ===== */
+.profile-details {
+    margin: 25px 0;
+}
+
+.detail-item {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.detail-item h4 {
+    font-size: 16px;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.detail-item p {
+    color: #475569;
+    line-height: 1.6;
+}
+
+/* ===== SKILLS ===== */
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skill-tag {
+    background: #dbeafe;
+    color: #2563eb;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* ===== PROFILE ACTIONS ===== */
+.profile-actions {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+    padding-top: 25px;
+    border-top: 1px solid #f1f5f9;
+}
+
+/* ===== EDIT PROFILE FORM ===== */
+.edit-profile-section {
+    padding: 120px 20px 80px;
+    background: #f8fafc;
+    min-height: 100vh;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+/* ===== MY SERVICES ===== */
+.my-services-section {
+    padding: 120px 20px 80px;
+    background: #f8fafc;
+    min-height: 100vh;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ===== SERVICE CARD ===== */
+.service-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.service-card .service-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.service-card .service-header h3 {
+    font-size: 18px;
+    color: #1e293b;
+}
+
+.service-card .service-category {
+    background: #dbeafe;
+    color: #2563eb;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.service-card .service-price {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2563eb;
+    margin: 10px 0;
+}
+
+.service-card .service-price span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #94a3b8;
+}
+
+.service-card .service-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.service-card .btn-small {
+    padding: 6px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-small.btn-edit {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.btn-small.btn-edit:hover {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-small.btn-view {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.btn-small.btn-view:hover {
+    background: #1e293b;
+    color: white;
+}
+
+.btn-small.btn-delete {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.btn-small.btn-delete:hover {
+    background: #dc2626;
+    color: white;
+}
+
+/* ===== CREATE SERVICE ===== */
+.create-service-section {
+    padding: 120px 20px 80px;
+    background: #f8fafc;
+    min-height: 100vh;
+}
+
+/* ===== SERVICE DETAILS ===== */
+.service-details-section {
+    padding: 120px 20px 80px;
+    background: #f8fafc;
+    min-height: 100vh;
+}
+
+/* ===== NO SERVICES ===== */
+.no-services {
+    text-align: center;
+    padding: 60px 20px;
+    color: #94a3b8;
+}
+
+.no-services i {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media screen and (max-width: 768px) {
+    .profile-container {
+        padding: 20px;
+    }
+    
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .profile-actions {
+        flex-direction: column;
+    }
+    
+    .profile-actions button {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .service-card .service-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
