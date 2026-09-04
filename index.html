@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+
     <!--NAVIGATION BAR -->
  
     <nav class="navbar">
@@ -17,17 +18,17 @@
                 <span>FreelanceHub</span>
             </div>
 
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#freelancers">Find Freelancers</a></li>
-                <li><a href="#categories">Categories</a></li>
-                <li><a href="#about">About</a></li>
-                <li class="auth-buttons">
-                    <a href="#" class="btn-login">Login</a>
-                    <a href="#" class="btn-register">Register</a>
-                </li>
-            </ul>
-
+<ul class="nav-links" id="navLinks">
+    <li><a href="#home" onclick="showHome()">Home</a></li>
+    <li><a href="#freelancers" onclick="showHome()">Find Freelancers</a></li>
+    <li><a href="#categories" onclick="showHome()">Categories</a></li>
+    <li><a href="#" onclick="showProfile()">Profile</a></li>  <!-- THIS IS NEW -->
+    <li><a href="#about" onclick="showHome()">About</a></li>
+    <li class="auth-buttons">
+        <a href="#" class="btn-login">Login</a>
+        <a href="#" class="btn-register">Register</a>
+    </li>
+</ul>
             <div class="hamburger" id="hamburger">
                 <i class="fas fa-bars"></i>
             </div>
@@ -227,6 +228,218 @@
             </div>
         </div>
     </section>
+    
+<!--  User Profile Page -->
+
+<section class="profile-page-section" id="userProfile" style="display: none;">
+    <div class="container">
+        <h2 class="section-title">My Profile</h2>
+        
+        <div class="profile-container">
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar">FN</div>
+                <div class="profile-info">
+                    <h2 id="profileName">Fizza Nadeem</h2>
+                    <p class="profile-title" id="profileTitle">Web Developer & Designer</p>
+                    <span class="profile-category" id="profileCategory">Web Development</span>
+                </div>
+            </div>
+            
+            <!-- Profile Stats -->
+            <div class="profile-stats">
+                <div>
+                    <div class="stat-number" id="profileServices">3</div>
+                    <div class="stat-label">Services</div>
+                </div>
+                <div>
+                    <div class="stat-number">⭐ 4.8</div>
+                    <div class="stat-label">Rating</div>
+                </div>
+                <div>
+                    <div class="stat-number" id="profileReviews">24</div>
+                    <div class="stat-label">Reviews</div>
+                </div>
+            </div>
+            
+            <!-- Profile Details -->
+            <div class="profile-details">
+                <div class="detail-item">
+                    <h4>About Me</h4>
+                    <p id="profileBio">Passionate web developer with 3 years of experience building responsive websites and web applications. I love creating clean, user-friendly interfaces.</p>
+                </div>
+                <div class="detail-item">
+                    <h4>Skills</h4>
+                    <div class="skills-list" id="profileSkills">
+                        <span class="skill-tag">HTML</span>
+                        <span class="skill-tag">CSS</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Node.js</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <h4>Experience</h4>
+                    <p id="profileExperience">3 years of professional web development experience. Worked with various clients on projects ranging from landing pages to full-stack applications.</p>
+                </div>
+            </div>
+            
+            <!-- Profile Buttons -->
+            <div class="profile-actions">
+                <button class="btn-primary" onclick="showEditProfile()">Edit Profile</button>
+                <button class="btn-secondary" onclick="showMyServices()">My Services</button>
+                <button class="btn-secondary" onclick="showCreateService()">Create Service</button>
+                <button class="btn-secondary" onclick="goBackToHome()">Back to Home</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- EDIT PROFILE FORM  -->
+
+<section class="edit-profile-section" id="editProfile" style="display: none;">
+    <div class="container">
+        <h2 class="section-title">Edit Profile</h2>
+        
+        <div class="profile-container">
+            <form id="editProfileForm">
+                <div class="form-group">
+                    <label for="editName">Full Name</label>
+                    <input type="text" id="editName" value="Fizza Nadeem" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editTitle">Professional Title</label>
+                    <input type="text" id="editTitle" value="Web Developer & Designer">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editCategory">Category</label>
+                    <select id="editCategory">
+                        <option value="web">Web Development</option>
+                        <option value="design">Graphic Design</option>
+                        <option value="mobile">Mobile Apps</option>
+                        <option value="data">Data Analysis</option>
+                        <option value="marketing">Digital Marketing</option>
+                        <option value="video">Video Production</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editBio">About Me</label>
+                    <textarea id="editBio" rows="4">Passionate web developer with 3 years of experience building responsive websites and web applications. I love creating clean, user-friendly interfaces.</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editSkills">Skills (comma separated)</label>
+                    <input type="text" id="editSkills" value="HTML, CSS, JavaScript, React, Node.js">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editExperience">Experience</label>
+                    <textarea id="editExperience" rows="3">3 years of professional web development experience. Worked with various clients on projects ranging from landing pages to full-stack applications.</textarea>
+                </div>
+                
+                <div class="profile-actions">
+                    <button type="submit" class="btn-primary">Save Profile</button>
+                    <button type="button" class="btn-secondary" onclick="showProfile()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+<!--  My Services Section = -->
+
+<section class="my-services-section" id="myServices" style="display: none;">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">My Services</h2>
+            <button class="btn-primary" onclick="showCreateService()">+ Create New Service</button>
+        </div>
+        
+        <div class="services-grid" id="myServicesGrid">
+            <!-- Services will be loaded by JavaScript -->
+        </div>
+        
+        <div class="profile-actions" style="margin-top: 30px;">
+            <button class="btn-secondary" onclick="showProfile()">Back to Profile</button>
+        </div>
+    </div>
+</section>
+
+
+<!--  Create Service Form  -->
+
+<section class="create-service-section" id="createService" style="display: none;">
+    <div class="container">
+        <h2 class="section-title">Create New Service</h2>
+        
+        <div class="profile-container">
+            <form id="createServiceForm">
+                <div class="form-group">
+                    <label for="serviceTitle">Service Title</label>
+                    <input type="text" id="serviceTitle" placeholder="e.g., Full Stack Web Development" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="serviceCategory">Category</label>
+                    <select id="serviceCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="web">Web Development</option>
+                        <option value="design">Graphic Design</option>
+                        <option value="mobile">Mobile Apps</option>
+                        <option value="data">Data Analysis</option>
+                        <option value="marketing">Digital Marketing</option>
+                        <option value="video">Video Production</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="serviceDescription">Description</label>
+                    <textarea id="serviceDescription" rows="4" placeholder="Describe your service in detail..." required></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="servicePrice">Price ($ / hour)</label>
+                        <input type="number" id="servicePrice" placeholder="e.g., 50" required min="1">
+                    </div>
+                    <div class="form-group half">
+                        <label for="serviceDelivery">Delivery Time (days)</label>
+                        <input type="number" id="serviceDelivery" placeholder="e.g., 3" required min="1">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="serviceSkills">Skills/Tags (comma separated)</label>
+                    <input type="text" id="serviceSkills" placeholder="e.g., React, Node.js, MongoDB">
+                </div>
+                
+                <div class="profile-actions">
+                    <button type="submit" class="btn-primary">Create Service</button>
+                    <button type="button" class="btn-secondary" onclick="showMyServices()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+<!--  SERVICE DETAILS PAGE  -->
+
+<section class="service-details-section" id="serviceDetails" style="display: none;">
+    <div class="container">
+        <button class="back-btn" onclick="showMyServices()"><i class="fas fa-arrow-left"></i> Back to My Services</button>
+        <div id="serviceDetailsContent">
+            <!-- Service details will be loaded by JavaScript -->
+        </div>
+    </div>
+</section>
+
+<!--  Update Your Navigation  -->
+<!-- Find your nav and add the Profile link -->
 
   
    <!-- Footer -->
