@@ -1250,3 +1250,206 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+/* ========================================== */
+/* ===== WEEK 4: JOBS & PROPOSALS ========== */
+/* ========================================== */
+
+/* ===== FIND JOBS ===== */
+.find-jobs-section {
+    padding: 120px 20px 80px;
+    background: #f8fafc;
+    min-height: 100vh;
+}
+
+.jobs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ===== JOB CARD ===== */
+.job-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.job-card .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.job-card .job-header h3 {
+    font-size: 18px;
+    color: #1e293b;
+}
+
+.job-card .job-category {
+    background: #dbeafe;
+    color: #2563eb;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.job-card .job-budget {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2563eb;
+    margin: 10px 0;
+}
+
+.job-card .job-budget span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #94a3b8;
+}
+
+.job-card .job-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.job-card .job-skills span {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.job-card .job-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.job-card .job-date {
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+.job-card .job-proposals {
+    color: #64748b;
+    font-size: 13px;
+}
+
+/* ===== PROPOSALS ===== */
+.proposals-list {
+    display: grid;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.proposal-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+}
+
+.proposal-card .proposal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.proposal-card .proposal-header h3 {
+    font-size: 18px;
+    color: #1e293b;
+}
+
+.proposal-status {
+    padding: 4px 14px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.proposal-status.pending {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.proposal-status.accepted {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.proposal-status.rejected {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.proposal-card .proposal-details {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.proposal-card .proposal-cover {
+    color: #475569;
+    line-height: 1.6;
+    margin: 10px 0;
+}
+
+/* ===== NO RESULTS ===== */
+.no-jobs,
+.no-proposals {
+    text-align: center;
+    padding: 60px 20px;
+    color: #94a3b8;
+}
+
+.no-jobs i,
+.no-proposals i {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media screen and (max-width: 768px) {
+    .jobs-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .job-card .job-header {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .proposal-card .proposal-header {
+        flex-direction: column;
+    }
+    
+    .proposal-card .proposal-details {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
