@@ -19,11 +19,11 @@
             </div>
 
 <ul class="nav-links" id="navLinks">
-    <li><a href="#home" onclick="showHome()">Home</a></li>
-    <li><a href="#freelancers" onclick="showHome()">Find Freelancers</a></li>
-    <li><a href="#categories" onclick="showHome()">Categories</a></li>
-    <li><a href="#" onclick="showProfile()">Profile</a></li>  <!-- THIS IS NEW -->
-    <li><a href="#about" onclick="showHome()">About</a></li>
+    <li><a href="#" onclick="showHome()">Home</a></li>
+    <li><a href="#" onclick="showFindFreelancers()">Find Freelancers</a></li>
+    <li><a href="#" onclick="showFindJobs()">Find Jobs</a></li>
+    <li><a href="#" onclick="showProfile()">Profile</a></li>
+    <li><a href="#" onclick="showHome()">About</a></li>
     <li class="auth-buttons">
         <a href="#" class="btn-login">Login</a>
         <a href="#" class="btn-register">Register</a>
@@ -285,12 +285,13 @@
             </div>
             
             <!-- Profile Buttons -->
-            <div class="profile-actions">
-                <button class="btn-primary" onclick="showEditProfile()">Edit Profile</button>
-                <button class="btn-secondary" onclick="showMyServices()">My Services</button>
-                <button class="btn-secondary" onclick="showCreateService()">Create Service</button>
-                <button class="btn-secondary" onclick="goBackToHome()">Back to Home</button>
-            </div>
+           <div class="profile-actions">
+    <button class="btn-primary" onclick="showEditProfile()">Edit Profile</button>
+    <button class="btn-secondary" onclick="showMyServices()">My Services</button>
+    <button class="btn-secondary" onclick="showCreateService()">Create Service</button>
+    <button class="btn-secondary" onclick="showMyProposals()">My Proposals</button>
+    <button class="btn-secondary" onclick="showHome()">Back to Home</button>
+</div>
         </div>
     </div>
 </section>
@@ -440,7 +441,169 @@
 
 <!--  Update Your Navigation  -->
 <!-- Find your nav and add the Profile link -->
+<!-- FIND JOBS SECTION  -->
 
+<section class="find-jobs-section" id="findJobs" style="display: none;">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Find Jobs</h2>
+            <button class="btn-primary" onclick="showPostJob()">+ Post a Job</button>
+        </div>
+        
+        <!-- ===== JOB SEARCH & FILTER ===== -->
+        <div class="filter-bar">
+            <div class="search-input-group">
+                <i class="fas fa-search"></i>
+                <input type="text" id="jobSearchInput" placeholder="Search jobs by title or skill...">
+            </div>
+            <div class="filter-group">
+                <select id="jobCategoryFilter">
+                    <option value="all">All Categories</option>
+                    <option value="web">Web Development</option>
+                    <option value="design">Graphic Design</option>
+                    <option value="mobile">Mobile Apps</option>
+                    <option value="data">Data Analysis</option>
+                    <option value="marketing">Digital Marketing</option>
+                    <option value="video">Video Production</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- ===== JOB CARDS GRID ===== -->
+        <div class="jobs-grid" id="jobsGrid">
+            <!-- Jobs will be loaded by JavaScript -->
+        </div>
+        
+        <div class="profile-actions" style="margin-top: 30px;">
+            <button class="btn-secondary" onclick="showHome()">Back to Home</button>
+        </div>
+    </div>
+</section>
+
+
+<!-- JOB DETAILS PAGE  -->
+
+<section class="job-details-section" id="jobDetails" style="display: none;">
+    <div class="container">
+        <button class="back-btn" onclick="showFindJobs()"><i class="fas fa-arrow-left"></i> Back to Jobs</button>
+        <div id="jobDetailsContent">
+            <!-- Job details will be loaded by JavaScript -->
+        </div>
+    </div>
+</section>
+
+
+<!-- POST A JOB FORM  -->
+
+<section class="post-job-section" id="postJob" style="display: none;">
+    <div class="container">
+        <h2 class="section-title">Post a New Job</h2>
+        
+        <div class="profile-container">
+            <form id="postJobForm">
+                <div class="form-group">
+                    <label for="jobTitle">Job Title</label>
+                    <input type="text" id="jobTitle" placeholder="e.g., Need a React Developer" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="jobCategory">Category</label>
+                    <select id="jobCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="web">Web Development</option>
+                        <option value="design">Graphic Design</option>
+                        <option value="mobile">Mobile Apps</option>
+                        <option value="data">Data Analysis</option>
+                        <option value="marketing">Digital Marketing</option>
+                        <option value="video">Video Production</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="jobDescription">Project Description</label>
+                    <textarea id="jobDescription" rows="4" placeholder="Describe your project in detail..." required></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="jobBudget">Budget ($)</label>
+                        <input type="number" id="jobBudget" placeholder="e.g., 500" required min="1">
+                    </div>
+                    <div class="form-group half">
+                        <label for="jobDuration">Duration (days)</label>
+                        <input type="number" id="jobDuration" placeholder="e.g., 7" required min="1">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="jobSkills">Required Skills (comma separated)</label>
+                    <input type="text" id="jobSkills" placeholder="e.g., React, Node.js, MongoDB">
+                </div>
+                
+                <div class="profile-actions">
+                    <button type="submit" class="btn-primary">Post Job</button>
+                    <button type="button" class="btn-secondary" onclick="showFindJobs()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!--  SUBMIT PROPOSAL FORM -->
+<section class="submit-proposal-section" id="submitProposal" style="display: none;">
+    <div class="container">
+        <h2 class="section-title">Submit Proposal</h2>
+        <p class="section-subtitle" id="proposalJobTitle"></p>
+        
+        <div class="profile-container">
+            <form id="submitProposalForm">
+                <input type="hidden" id="proposalJobId">
+                
+                <div class="form-group">
+                    <label for="coverLetter">Cover Letter</label>
+                    <textarea id="coverLetter" rows="5" placeholder="Why are you the best fit for this job?" required></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="proposedPrice">Your Price ($)</label>
+                        <input type="number" id="proposedPrice" placeholder="e.g., 450" required min="1">
+                    </div>
+                    <div class="form-group half">
+                        <label for="proposedDelivery">Delivery Time (days)</label>
+                        <input type="number" id="proposedDelivery" placeholder="e.g., 5" required min="1">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="proposalSkills">Relevant Skills (comma separated)</label>
+                    <input type="text" id="proposalSkills" placeholder="e.g., React, CSS, JavaScript">
+                </div>
+                
+                <div class="profile-actions">
+                    <button type="submit" class="btn-primary">Submit Proposal</button>
+                    <button type="button" class="btn-secondary" onclick="showFindJobs()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+<!--  MY PROPOSALS SECTION -->
+<section class="my-proposals-section" id="myProposals" style="display: none;">
+    <div class="container">
+        <h2 class="section-title">My Proposals</h2>
+        
+        <div class="proposals-list" id="proposalsList">
+            <!-- Proposals will be loaded by JavaScript -->
+        </div>
+        
+        <div class="profile-actions" style="margin-top: 30px;">
+            <button class="btn-secondary" onclick="showProfile()">Back to Profile</button>
+        </div>
+    </div>
+</section>
   
    <!-- Footer -->
  
