@@ -583,3 +583,379 @@ function showHome() {
     // 3. Scroll to the top
     window.scrollTo(0, 0);
 }
+// ==========================================
+// ===== WEEK 4: JOBS & PROPOSALS ==========
+// ==========================================
+
+// ===== SAMPLE JOBS DATA =====
+let jobs = [
+    {
+        id: 1,
+        title: "Need a React Developer for E-commerce Site",
+        category: "web",
+        description: "Looking for an experienced React developer to build a modern e-commerce website. Must have experience with React, Redux, and payment integration.",
+        budget: 800,
+        duration: 14,
+        skills: ["React", "Redux", "Stripe"],
+        postedDate: "2026-09-05",
+        proposals: 5
+    },
+    {
+        id: 2,
+        title: "Logo Design for Tech Startup",
+        category: "design",
+        description: "We need a modern, minimal logo for our AI startup. Should be clean, professional, and memorable.",
+        budget: 250,
+        duration: 5,
+        skills: ["Logo Design", "Branding", "Illustrator"],
+        postedDate: "2026-09-04",
+        proposals: 12
+    },
+    {
+        id: 3,
+        title: "Mobile App Development (iOS & Android)",
+        category: "mobile",
+        description: "Build a cross-platform mobile app for food delivery. Features: user auth, restaurant listing, cart, and payment.",
+        budget: 1500,
+        duration: 30,
+        skills: ["React Native", "Firebase", "API"],
+        postedDate: "2026-09-03",
+        proposals: 8
+    },
+    {
+        id: 4,
+        title: "Data Analysis for Sales Report",
+        category: "data",
+        description: "Analyze 2 years of sales data and create a dashboard with insights. Tools: Excel or Power BI.",
+        budget: 400,
+        duration: 7,
+        skills: ["Excel", "Power BI", "SQL"],
+        postedDate: "2026-09-02",
+        proposals: 3
+    },
+    {
+        id: 5,
+        title: "Social Media Marketing Campaign",
+        category: "marketing",
+        description: "Plan and execute a 1-month social media campaign for a fashion brand. Includes content creation and ads.",
+        budget: 600,
+        duration: 30,
+        skills: ["Social Media", "Content", "Ads"],
+        postedDate: "2026-09-01",
+        proposals: 7
+    },
+    {
+        id: 6,
+        title: "Video Editing for YouTube Channel",
+        category: "video",
+        description: "Edit 4 videos per month for a tech YouTube channel. Includes cuts, transitions, and basic motion graphics.",
+        budget: 300,
+        duration: 30,
+        skills: ["Premiere Pro", "After Effects"],
+        postedDate: "2026-08-30",
+        proposals: 10
+    }
+];
+
+let nextJobId = 7;
+
+// ===== PROPOSALS DATA =====
+let proposals = [
+    {
+        id: 1,
+        jobId: 1,
+        jobTitle: "Need a React Developer for E-commerce Site",
+        coverLetter: "I have 4 years of experience building e-commerce sites with React and Redux. I can deliver this project within 10 days.",
+        price: 750,
+        delivery: 10,
+        skills: ["React", "Redux", "Stripe"],
+        status: "pending",
+        submittedDate: "2026-09-06"
+    }
+];
+
+let nextProposalId = 2;
+
+// ===== DOM ELEMENTS =====
+const findJobsSection = document.getElementById('findJobs');
+const jobDetailsSection = document.getElementById('jobDetails');
+const postJobSection = document.getElementById('postJob');
+const submitProposalSection = document.getElementById('submitProposal');
+const myProposalsSection = document.getElementById('myProposals');
+
+// ===== FUNCTION: SHOW FIND JOBS =====
+function showFindJobs() {
+    hideAllSections();
+    findJobsSection.style.display = 'block';
+    displayJobs(jobs);
+    window.scrollTo(0, 0);
+}
+
+// ===== FUNCTION: SHOW JOB DETAILS =====
+function showJobDetails(id) {
+    const job = jobs.find(j => j.id === id);
+    if (!job) return;
+    
+    hideAllSections();
+    jobDetailsSection.style.display = 'block';
+    
+    document.getElementById('jobDetailsContent').innerHTML = `
+        <div class="profile-container">
+            <h2 style="margin-bottom:10px;">${job.title}</h2>
+            <span class="job-category" style="display:inline-block;margin-bottom:15px;">${getCategoryName(job.category)}</span>
+            <p style="color:#475569;line-height:1.8;margin:15px 0;">${job.description}</p>
+            
+            <div class="profile-stats" style="margin:20px 0;">
+                <div>
+                    <div class="stat-number">$${job.budget}</div>
+                    <div class="stat-label">Budget</div>
+                </div>
+                <div>
+                    <div class="stat-number">${job.duration} days</div>
+                    <div class="stat-label">Duration</div>
+                </div>
+                <div>
+                    <div class="stat-number">${job.proposals}</div>
+                    <div class="stat-label">Proposals</div>
+                </div>
+            </div>
+            
+            <div class="detail-item">
+                <h4>Required Skills</h4>
+                <div class="skills-list">
+                    ${job.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                </div>
+            </div>
+            
+            <div class="profile-actions">
+                <button class="btn-primary" onclick="showSubmitProposal(${job.id})">Submit Proposal</button>
+                <button class="btn-secondary" onclick="showFindJobs()">Back to Jobs</button>
+            </div>
+        </div>
+    `;
+    window.scrollTo(0, 0);
+}
+
+// ===== FUNCTION: SHOW POST JOB =====
+function showPostJob() {
+    hideAllSections();
+    postJobSection.style.display = 'block';
+    document.getElementById('postJobForm').reset();
+    window.scrollTo(0, 0);
+}
+
+// ===== FUNCTION: SHOW SUBMIT PROPOSAL =====
+function showSubmitProposal(jobId) {
+    const job = jobs.find(j => j.id === jobId);
+    if (!job) return;
+    
+    hideAllSections();
+    submitProposalSection.style.display = 'block';
+    document.getElementById('proposalJobTitle').textContent = `Applying for: ${job.title}`;
+    document.getElementById('proposalJobId').value = jobId;
+    document.getElementById('submitProposalForm').reset();
+    window.scrollTo(0, 0);
+}
+
+// ===== FUNCTION: SHOW MY PROPOSALS =====
+function showMyProposals() {
+    hideAllSections();
+    myProposalsSection.style.display = 'block';
+    displayProposals();
+    window.scrollTo(0, 0);
+}
+
+// ===== FUNCTION: DISPLAY JOBS =====
+function displayJobs(jobList) {
+    const grid = document.getElementById('jobsGrid');
+    
+    if (jobList.length === 0) {
+        grid.innerHTML = `
+            <div class="no-jobs">
+                <i class="fas fa-search"></i>
+                <h3>No Jobs Found</h3>
+                <p>Try adjusting your search or filters</p>
+            </div>
+        `;
+        return;
+    }
+    
+    grid.innerHTML = jobList.map(job => `
+        <div class="job-card">
+            <div class="job-header">
+                <h3>${job.title}</h3>
+                <span class="job-category">${getCategoryName(job.category)}</span>
+            </div>
+            <div class="job-budget">$${job.budget} <span>budget</span></div>
+            <div class="job-skills">
+                ${job.skills.map(s => `<span>${s}</span>`).join('')}
+            </div>
+            <p style="color:#64748b;font-size:14px;">${job.description.substring(0, 90)}...</p>
+            <div class="job-footer">
+                <span class="job-date"><i class="fas fa-calendar"></i> ${job.postedDate}</span>
+                <span class="job-proposals"><i class="fas fa-file-alt"></i> ${job.proposals} proposals</span>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:12px;">
+                <button class="btn-small btn-view" onclick="showJobDetails(${job.id})">View Details</button>
+                <button class="btn-small btn-edit" onclick="showSubmitProposal(${job.id})">Apply</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ===== FUNCTION: DISPLAY PROPOSALS =====
+function displayProposals() {
+    const list = document.getElementById('proposalsList');
+    
+    if (proposals.length === 0) {
+        list.innerHTML = `
+            <div class="no-proposals">
+                <i class="fas fa-file-alt"></i>
+                <h3>No Proposals Yet</h3>
+                <p>Browse jobs and submit your first proposal!</p>
+            </div>
+        `;
+        return;
+    }
+    
+    list.innerHTML = proposals.map(p => `
+        <div class="proposal-card">
+            <div class="proposal-header">
+                <h3>${p.jobTitle}</h3>
+                <span class="proposal-status ${p.status}">${p.status.charAt(0).toUpperCase() + p.status.slice(1)}</span>
+            </div>
+            <div class="proposal-details">
+                <span><i class="fas fa-dollar-sign"></i> $${p.price}</span>
+                <span><i class="fas fa-clock"></i> ${p.delivery} days</span>
+                <span><i class="fas fa-calendar"></i> ${p.submittedDate}</span>
+            </div>
+            <p class="proposal-cover">${p.coverLetter}</p>
+            <div class="job-skills">
+                ${p.skills.map(s => `<span>${s}</span>`).join('')}
+            </div>
+            <div style="display:flex;gap:10px;margin-top:12px;">
+                <button class="btn-small btn-view" onclick="showJobDetails(${p.jobId})">View Job</button>
+                <button class="btn-small btn-delete" onclick="withdrawProposal(${p.id})">Withdraw</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ===== FUNCTION: WITHDRAW PROPOSAL =====
+function withdrawProposal(id) {
+    if (confirm('Are you sure you want to withdraw this proposal?')) {
+        proposals = proposals.filter(p => p.id !== id);
+        displayProposals();
+        alert('Proposal withdrawn successfully!');
+    }
+}
+
+// ===== FUNCTION: FILTER JOBS =====
+function filterJobs() {
+    const search = document.getElementById('jobSearchInput').value.toLowerCase();
+    const category = document.getElementById('jobCategoryFilter').value;
+    
+    let filtered = jobs.filter(j => {
+        const matchesSearch = j.title.toLowerCase().includes(search) ||
+                             j.skills.some(s => s.toLowerCase().includes(search));
+        const matchesCategory = category === 'all' || j.category === category;
+        return matchesSearch && matchesCategory;
+    });
+    
+    displayJobs(filtered);
+}
+
+// ===== EVENT: POST JOB FORM =====
+document.getElementById('postJobForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const title = document.getElementById('jobTitle').value.trim();
+    const category = document.getElementById('jobCategory').value;
+    const description = document.getElementById('jobDescription').value.trim();
+    const budget = parseFloat(document.getElementById('jobBudget').value);
+    const duration = parseInt(document.getElementById('jobDuration').value);
+    const skills = document.getElementById('jobSkills').value.split(',').map(s => s.trim()).filter(s => s);
+    
+    if (!title || !category || !description || !budget || !duration) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+    
+    const newJob = {
+        id: nextJobId++,
+        title,
+        category,
+        description,
+        budget,
+        duration,
+        skills: skills.length ? skills : ['General'],
+        postedDate: new Date().toISOString().split('T')[0],
+        proposals: 0
+    };
+    
+    jobs.push(newJob);
+    alert('Job posted successfully!');
+    showFindJobs();
+});
+
+// ===== EVENT: SUBMIT PROPOSAL FORM =====
+document.getElementById('submitProposalForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const jobId = parseInt(document.getElementById('proposalJobId').value);
+    const job = jobs.find(j => j.id === jobId);
+    const coverLetter = document.getElementById('coverLetter').value.trim();
+    const price = parseFloat(document.getElementById('proposedPrice').value);
+    const delivery = parseInt(document.getElementById('proposedDelivery').value);
+    const skills = document.getElementById('proposalSkills').value.split(',').map(s => s.trim()).filter(s => s);
+    
+    if (!coverLetter || !price || !delivery) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+    
+    const newProposal = {
+        id: nextProposalId++,
+        jobId,
+        jobTitle: job.title,
+        coverLetter,
+        price,
+        delivery,
+        skills: skills.length ? skills : ['General'],
+        status: 'pending',
+        submittedDate: new Date().toISOString().split('T')[0]
+    };
+    
+    proposals.push(newProposal);
+    job.proposals++;
+    
+    alert('Proposal submitted successfully!');
+    showFindJobs();
+});
+
+// ===== UPDATE HIDE ALL SECTIONS (Include Week 4 sections) =====
+const originalHideAllSections = hideAllSections;
+hideAllSections = function() {
+    document.querySelectorAll('.hero, .categories, .features, .about, .footer, .freelancers-section').forEach(el => {
+        if (el) el.style.display = 'none';
+    });
+    
+    document.getElementById('userProfile').style.display = 'none';
+    document.getElementById('editProfile').style.display = 'none';
+    document.getElementById('myServices').style.display = 'none';
+    document.getElementById('createService').style.display = 'none';
+    document.getElementById('serviceDetails').style.display = 'none';
+    
+    findJobsSection.style.display = 'none';
+    jobDetailsSection.style.display = 'none';
+    postJobSection.style.display = 'none';
+    submitProposalSection.style.display = 'none';
+    myProposalsSection.style.display = 'none';
+};
+
+//  EVENT LISTENERS 
+document.getElementById('jobSearchInput').addEventListener('input', filterJobs);
+document.getElementById('jobCategoryFilter').addEventListener('change', filterJobs);
+
+// ADD "MY PROPOSALS" LINK TO PROFILE ACTIONS 
+// Update profile buttons to include My Proposals
