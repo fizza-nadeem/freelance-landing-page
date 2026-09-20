@@ -959,3 +959,420 @@ document.getElementById('jobCategoryFilter').addEventListener('change', filterJo
 
 // ADD "MY PROPOSALS" LINK TO PROFILE ACTIONS 
 // Update profile buttons to include My Proposals
+// ==========================================
+// ===== WEEK 5: ORDERS & PROJECTS =========
+// ==========================================
+
+// ===== SAMPLE ORDERS DATA =====
+let orders = [
+    {
+        id: 1,
+        title: "E-commerce Website Development",
+        client: "TechCorp Inc.",
+        freelancer: "Fizza Nadeem",
+        description: "Build a complete e-commerce website with product listings, cart, and payment integration using React and Node.js.",
+        budget: 800,
+        deadline: 14,
+        status: "in-progress",
+        createdDate: "2026-09-10",
+        progress: 65,
+        milestones: [
+            { id: 1, title: "Design Mockups", description: "Create UI/UX designs", completed: true },
+            { id: 2, title: "Frontend Development", description: "Build React components", completed: true },
+            { id: 3, title: "Backend API", description: "Create Node.js APIs", completed: false },
+            { id: 4, title: "Payment Integration", description: "Add Stripe payment", completed: false },
+            { id: 5, title: "Testing & Deployment", description: "Test and deploy the site", completed: false }
+        ],
+        delivery: null
+    },
+    {
+        id: 2,
+        title: "Mobile App UI Design",
+        client: "StartupXYZ",
+        freelancer: "Fizza Nadeem",
+        description: "Design a modern, clean UI for a food delivery mobile app. Include 15+ screens with interactions.",
+        budget: 450,
+        deadline: 10,
+        status: "completed",
+        createdDate: "2026-09-01",
+        progress: 100,
+        milestones: [
+            { id: 1, title: "Wireframes", description: "Create basic layouts", completed: true },
+            { id: 2, title: "High-Fidelity Designs", description: "Design all screens", completed: true },
+            { id: 3, title: "Prototype", description: "Interactive prototype", completed: true },
+            { id: 4, title: "Handoff", description: "Deliver files", completed: true }
+        ],
+        delivery: {
+            message: "All 15 screens designed and delivered in Figma. Prototype includes all interactions.",
+            link: "https://figma.com/project",
+            date: "2026-09-08"
+        }
+    },
+    {
+        id: 3,
+        title: "Data Analysis Dashboard",
+        client: "DataViz Corp",
+        freelancer: "Fizza Nadeem",
+        description: "Create an interactive dashboard for sales data using Power BI. Include charts, filters, and insights.",
+        budget: 350,
+        deadline: 7,
+        status: "pending",
+        createdDate: "2026-09-12",
+        progress: 0,
+        milestones: [
+            { id: 1, title: "Data Cleaning", description: "Clean and prepare data", completed: false },
+            { id: 2, title: "Dashboard Design", description: "Design dashboard layout", completed: false },
+            { id: 3, title: "Visualizations", description: "Create charts and graphs", completed: false }
+        ],
+        delivery: null
+    },
+    {
+        id: 4,
+        title: "Social Media Campaign",
+        client: "FashionBrand",
+        freelancer: "Fizza Nadeem",
+        description: "Plan and execute a 1-month social media campaign for a fashion brand. Includes content calendar and ads.",
+        budget: 600,
+        deadline: 30,
+        status: "submitted",
+        createdDate: "2026-08-20",
+        progress: 90,
+        milestones: [
+            { id: 1, title: "Strategy", description: "Create campaign strategy", completed: true },
+            { id: 2, title: "Content Calendar", description: "Plan 30 days of content", completed: true },
+            { id: 3, title: "Ad Creation", description: "Design ad creatives", completed: true },
+            { id: 4, title: "Launch & Monitor", description: "Run campaign and track results", completed: false }
+        ],
+        delivery: {
+            message: "Campaign strategy and content calendar delivered. Ads are ready to launch.",
+            link: "https://drive.google.com/campaign",
+            date: "2026-09-11"
+        }
+    }
+];
+
+let nextOrderId = 5;
+
+// ===== DOM ELEMENTS =====
+const myOrdersSection = document.getElementById('myOrders');
+const orderDetailsSection = document.getElementById('orderDetails');
+const createOrderSection = document.getElementById('createOrder');
+const deliverySection = document.getElementById('deliverySection');
+
+// ===== FUNCTION: SHOW MY ORDERS =====
+function showMyOrders() {
+    hideAllSections();
+    myOrdersSection.style.display = 'block';
+    displayOrders(orders);
+    window.scrollTo(0, 0);
+}
+
+// ===== FUNCTION: SHOW ORDER DETAILS =====
+function showOrderDetails(id) {
+    const order = orders.find(o => o.id === id);
+    if (!order) return;
+    
+    hideAllSections();
+    orderDetailsSection.style.display = 'block';
+    
+    const completedMilestones = order.milestones.filter(m => m.completed).length;
+    const totalMilestones = order.milestones.length;
+    
+    document.getElementById('orderDetailsContent').innerHTML = `
+        <div class="profile-container">
+            <div class="order-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:15px;">
+                <h2 style="margin:0;">${order.title}</h2>
+                <span class="order-status ${order.status}">${order.status.replace('-', ' ')}</span>
+            </div>
+            
+            <p style="color:#475569;line-height:1.8;margin:15px 0;">${order.description}</p>
+            
+            <div class="profile-stats" style="margin:20px 0;">
+                <div>
+                    <div class="stat-number">$${order.budget}</div>
+                    <div class="stat-label">Budget</div>
+                </div>
+                <div>
+                    <div class="stat-number">${order.deadline} days</div>
+                    <div class="stat-label">Deadline</div>
+                </div>
+                <div>
+                    <div class="stat-number">${completedMilestones}/${totalMilestones}</div>
+                    <div class="stat-label">Milestones</div>
+                </div>
+            </div>
+            
+            <div class="detail-item">
+                <h4>Client</h4>
+                <p>${order.client}</p>
+            </div>
+            
+            <div class="detail-item">
+                <h4>Freelancer</h4>
+                <p>${order.freelancer}</p>
+            </div>
+            
+            <div class="detail-item">
+                <h4>Progress</h4>
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Completed</span>
+                        <span>${order.progress}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${order.progress}%;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="detail-item">
+                <h4>Milestones</h4>
+                <div class="milestones-list">
+                    ${order.milestones.map(m => `
+                        <div class="milestone-item">
+                            <div class="milestone-check ${m.completed ? 'done' : ''}">
+                                ${m.completed ? '<i class="fas fa-check"></i>' : ''}
+                            </div>
+                            <div class="milestone-info">
+                                <h4>${m.title}</h4>
+                                <p>${m.description}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            
+            ${order.delivery ? `
+            <div class="delivery-info">
+                <h4 style="margin-bottom:8px;">Delivery Submitted</h4>
+                <p>${order.delivery.message}</p>
+                ${order.delivery.link ? `<p style="margin-top:8px;"><a href="${order.delivery.link}" target="_blank" style="color:#2563eb;">View Delivery</a></p>` : ''}
+                <p style="color:#94a3b8;font-size:13px;margin-top:8px;">Submitted on ${order.delivery.date}</p>
+            </div>
+            ` : ''}
+            
+            <div class="profile-actions">
+                ${order.status !== 'completed' && order.status !== 'cancelled' ? 
+                    `<button class="btn-primary" onclick="showDeliveryForm(${order.id})">Submit Delivery</button>` : ''}
+                ${order.status === 'pending' ? 
+                    `<button class="btn-small btn-edit" onclick="updateOrderStatus(${order.id}, 'in-progress')">Start Project</button>` : ''}
+                ${order.status === 'in-progress' ? 
+                    `<button class="btn-small btn-edit" onclick="updateOrderStatus(${order.id}, 'submitted')">Mark as Submitted</button>` : ''}
+                ${order.status === 'submitted' ? 
+                    `<button class="btn-small btn-edit" onclick="updateOrderStatus(${order.id}, 'completed')">Mark as Completed</button>` : ''}
+                <button class="btn-secondary" onclick="showMyOrders()">Back to Orders</button>
+            </div>
+        </div>
+    `;
+    window.scrollTo(0, 0);
+}
+
+// ===== FUNCTION: SHOW CREATE ORDER =====
+function showCreateOrder() {
+    hideAllSections();
+    createOrderSection.style.display = 'block';
+    document.getElementById('createOrderForm').reset();
+    window.scrollTo(0, 0);
+}
+
+// ===== FUNCTION: SHOW DELIVERY FORM =====
+function showDeliveryForm(orderId) {
+    const order = orders.find(o => o.id === orderId);
+    if (!order) return;
+    
+    hideAllSections();
+    deliverySection.style.display = 'block';
+    document.getElementById('deliveryOrderTitle').textContent = `Delivering: ${order.title}`;
+    document.getElementById('deliveryOrderId').value = orderId;
+    document.getElementById('deliveryForm').reset();
+    window.scrollTo(0, 0);
+}
+
+// ===== FUNCTION: DISPLAY ORDERS =====
+function displayOrders(orderList) {
+    const grid = document.getElementById('ordersGrid');
+    
+    if (orderList.length === 0) {
+        grid.innerHTML = `
+            <div class="no-orders">
+                <i class="fas fa-clipboard-list"></i>
+                <h3>No Orders Found</h3>
+                <p>You don't have any orders yet.</p>
+                <button class="btn-primary" style="margin-top:15px;" onclick="showCreateOrder()">Create Order</button>
+            </div>
+        `;
+        return;
+    }
+    
+    grid.innerHTML = orderList.map(order => {
+        const completedMilestones = order.milestones.filter(m => m.completed).length;
+        return `
+            <div class="order-card">
+                <div class="order-header">
+                    <h3>${order.title}</h3>
+                    <span class="order-status ${order.status}">${order.status.replace('-', ' ')}</span>
+                </div>
+                <div class="order-details">
+                    <span><i class="fas fa-user"></i> ${order.client}</span>
+                    <span><i class="fas fa-dollar-sign"></i> $${order.budget}</span>
+                    <span><i class="fas fa-clock"></i> ${order.deadline} days</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Progress</span>
+                        <span>${order.progress}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${order.progress}%;"></div>
+                    </div>
+                </div>
+                <p style="color:#64748b;font-size:14px;margin:10px 0;">
+                    ${order.milestones.length} milestones (${completedMilestones} completed)
+                </p>
+                <div style="display:flex;gap:10px;margin-top:12px;">
+                    <button class="btn-small btn-view" onclick="showOrderDetails(${order.id})">View Details</button>
+                    ${order.status === 'pending' ? 
+                        `<button class="btn-small btn-edit" onclick="updateOrderStatus(${order.id}, 'in-progress')">Start</button>` : ''}
+                    ${order.status === 'in-progress' ? 
+                        `<button class="btn-small btn-edit" onclick="showDeliveryForm(${order.id})">Deliver</button>` : ''}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ===== FUNCTION: FILTER ORDERS =====
+function filterOrders(filter) {
+    // Update active button
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    let filtered;
+    if (filter === 'all') {
+        filtered = orders;
+    } else if (filter === 'active') {
+        filtered = orders.filter(o => o.status === 'in-progress' || o.status === 'pending' || o.status === 'submitted');
+    } else if (filter === 'completed') {
+        filtered = orders.filter(o => o.status === 'completed');
+    }
+    
+    displayOrders(filtered);
+}
+
+// ===== FUNCTION: UPDATE ORDER STATUS =====
+function updateOrderStatus(id, newStatus) {
+    const order = orders.find(o => o.id === id);
+    if (!order) return;
+    
+    order.status = newStatus;
+    
+    // Update progress based on status
+    if (newStatus === 'in-progress') {
+        order.progress = Math.max(order.progress, 10);
+    } else if (newStatus === 'submitted') {
+        order.progress = Math.max(order.progress, 90);
+    } else if (newStatus === 'completed') {
+        order.progress = 100;
+        order.milestones.forEach(m => m.completed = true);
+    }
+    
+    alert(`Order status updated to "${newStatus.replace('-', ' ')}"`);
+    displayOrders(orders);
+    
+    // If we're on the details page, refresh it
+    if (orderDetailsSection.style.display === 'block') {
+        showOrderDetails(id);
+    }
+}
+
+// ===== EVENT: CREATE ORDER FORM =====
+document.getElementById('createOrderForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const title = document.getElementById('orderTitle').value.trim();
+    const client = document.getElementById('orderClient').value.trim();
+    const freelancer = document.getElementById('orderFreelancer').value.trim();
+    const description = document.getElementById('orderDescription').value.trim();
+    const budget = parseFloat(document.getElementById('orderBudget').value);
+    const deadline = parseInt(document.getElementById('orderDeadline').value);
+    const status = document.getElementById('orderStatus').value;
+    
+    if (!title || !client || !freelancer || !description || !budget || !deadline) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+    
+    const newOrder = {
+        id: nextOrderId++,
+        title,
+        client,
+        freelancer,
+        description,
+        budget,
+        deadline,
+        status,
+        createdDate: new Date().toISOString().split('T')[0],
+        progress: status === 'in-progress' ? 10 : 0,
+        milestones: [
+            { id: 1, title: "Project Kickoff", description: "Start the project", completed: status === 'in-progress' },
+            { id: 2, title: "Development", description: "Work on the project", completed: false },
+            { id: 3, title: "Delivery", description: "Submit final work", completed: false }
+        ],
+        delivery: null
+    };
+    
+    orders.push(newOrder);
+    alert('Order created successfully!');
+    showMyOrders();
+});
+
+// ===== EVENT: DELIVERY FORM =====
+document.getElementById('deliveryForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const orderId = parseInt(document.getElementById('deliveryOrderId').value);
+    const order = orders.find(o => o.id === orderId);
+    const message = document.getElementById('deliveryMessage').value.trim();
+    const link = document.getElementById('deliveryLink').value.trim();
+    
+    if (!message) {
+        alert('Please describe your delivery.');
+        return;
+    }
+    
+    order.delivery = {
+        message,
+        link: link || null,
+        date: new Date().toISOString().split('T')[0]
+    };
+    order.status = 'submitted';
+    order.progress = 90;
+    
+    alert('Delivery submitted successfully!');
+    showOrderDetails(orderId);
+});
+
+// ===== UPDATE HIDE ALL SECTIONS =====
+const originalHideAllSectionsWeek5 = hideAllSections;
+hideAllSections = function() {
+    document.querySelectorAll('.hero, .categories, .features, .about, .footer, .freelancers-section').forEach(el => {
+        if (el) el.style.display = 'none';
+    });
+    
+    document.getElementById('userProfile').style.display = 'none';
+    document.getElementById('editProfile').style.display = 'none';
+    document.getElementById('myServices').style.display = 'none';
+    document.getElementById('createService').style.display = 'none';
+    document.getElementById('serviceDetails').style.display = 'none';
+    
+    findJobsSection.style.display = 'none';
+    jobDetailsSection.style.display = 'none';
+    postJobSection.style.display = 'none';
+    submitProposalSection.style.display = 'none';
+    myProposalsSection.style.display = 'none';
+    
+    myOrdersSection.style.display = 'none';
+    orderDetailsSection.style.display = 'none';
+    createOrderSection.style.display = 'none';
+    deliverySection.style.display = 'none';
+};
