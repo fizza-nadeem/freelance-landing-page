@@ -1376,3 +1376,461 @@ hideAllSections = function() {
     createOrderSection.style.display = 'none';
     deliverySection.style.display = 'none';
 };
+// ==========================================
+// ===== WEEK 6: MESSAGES & REVIEWS ========
+// ==========================================
+
+// ===== CONVERSATIONS DATA =====
+let conversations = [
+    {
+        id: 1,
+        name: "TechCorp Inc.",
+        avatar: "TC",
+        lastMessage: "Great! When can you start?",
+        time: "10:30 AM",
+        unread: true,
+        messages: [
+            { id: 1, text: "Hi, I saw your proposal for our e-commerce project.", sender: "them", time: "10:00 AM" },
+            { id: 2, text: "Yes! I'd love to work on it. I have 4 years of React experience.", sender: "me", time: "10:05 AM" },
+            { id: 3, text: "That sounds perfect. What's your timeline?", sender: "them", time: "10:15 AM" },
+            { id: 4, text: "I can start immediately and deliver in 14 days.", sender: "me", time: "10:20 AM" },
+            { id: 5, text: "Great! When can you start?", sender: "them", time: "10:30 AM" }
+        ]
+    },
+    {
+        id: 2,
+        name: "StartupXYZ",
+        avatar: "SX",
+        lastMessage: "Thanks for the designs!",
+        time: "Yesterday",
+        unread: false,
+        messages: [
+            { id: 1, text: "Hi, how's the mobile app UI coming along?", sender: "them", time: "Yesterday 2:00 PM" },
+            { id: 2, text: "Going great! I've finished 12 screens so far.", sender: "me", time: "Yesterday 2:30 PM" },
+            { id: 3, text: "Thanks for the designs!", sender: "them", time: "Yesterday 3:00 PM" }
+        ]
+    },
+    {
+        id: 3,
+        name: "FashionBrand",
+        avatar: "FB",
+        lastMessage: "Let's discuss the campaign",
+        time: "2 days ago",
+        unread: false,
+        messages: [
+            { id: 1, text: "Can we schedule a call to discuss the social media campaign?", sender: "them", time: "2 days ago" },
+            { id: 2, text: "Sure! How about tomorrow at 2 PM?", sender: "me", time: "2 days ago" },
+            { id: 3, text: "Let's discuss the campaign", sender: "them", time: "2 days ago" }
+        ]
+    }
+];
+
+let currentConversationId = null;
+
+// ===== NOTIFICATIONS DATA =====
+let notifications = [
+    {
+        id: 1,
+        type: "message",
+        icon: "fa-envelope",
+        title: "New Message",
+        message: "TechCorp Inc. sent you a message",
+        time: "10:30 AM",
+        read: false
+    },
+    {
+        id: 2,
+        type: "proposal",
+        icon: "fa-file-alt",
+        title: "Proposal Accepted",
+        message: "Your proposal for 'Mobile App UI Design' was accepted!",
+        time: "Yesterday",
+        read: false
+    },
+    {
+        id: 3,
+        type: "project",
+        icon: "fa-check-circle",
+        title: "Project Completed",
+        message: "Project 'Social Media Campaign' was marked as completed",
+        time: "2 days ago",
+        read: false
+    },
+    {
+        id: 4,
+        type: "review",
+        icon: "fa-star",
+        title: "New Review",
+        message: "You received a 5-star review from StartupXYZ",
+        time: "3 days ago",
+        read: true
+    }
+];
+
+// ===== REVIEWS DATA =====
+let reviews = [
+    {
+        id: 1,
+        reviewer: "TechCorp Inc.",
+        avatar: "TC",
+        rating: 5,
+        text: "Fizza delivered exceptional work on our e-commerce site. Highly recommended!",
+        date: "2026-09-15"
+    },
+    {
+        id: 2,
+        reviewer: "StartupXYZ",
+        avatar: "SX",
+        rating: 4,
+        text: "Great designs and good communication throughout the project.",
+        date: "2026-09-10"
+    },
+    {
+        id: 3,
+        reviewer: "FashionBrand",
+        avatar: "FB",
+        rating: 5,
+        text: "Very professional and creative. Will definitely work with again!",
+        date: "2026-09-05"
+    }
+];
+
+let nextReviewId = 4;
+let selectedRating = 0;
+
+// ===== DOM ELEMENTS =====
+const messagesSection = document.getElementById('messages');
+const notificationsSection = document.getElementById('notifications');
+const reviewsSection = document.getElementById('reviews');
+const conversationList = document.getElementById('conversationList');
+const chatMessages = document.getElementById('chatMessages');
+const chatHeader = document.getElementById('chatHeader');
+const chatInputArea = document.getElementById('chatInputArea');
+const messageInput = document.getElementById('messageInput');
+const notifBadge = document.getElementById('notifBadge');
+
+// ===== FUNCTION: SHOW MESSAGES =====
+function showMessages() {
+    hideAllSections();
+    messagesSection.style.display = 'block';
+    displayConversations();
+    window.scrollTo(0, 0);
+}
+
+// ===== FUNCTION: DISPLAY CONVERSATIONS =====
+function displayConversations() {
+    conversationList.innerHTML = conversations.map(conv => `
+        <div class="conversation-item ${conv.unread ? 'unread' : ''} ${currentConversationId === conv.id ? 'active' : ''}" onclick="openConversation(${conv.id})">
+            <div class="conv-avatar">${conv.avatar}</div>
+            <div class="conv-info">
+                <h4>${conv.name}</h4>
+                <p>${conv.lastMessage}</p>
+            </div>
+            <div class="conv-meta">
+                <div class="conv-time">${conv.time}</div>
+                ${conv.unread ? '<div class="unread-dot"></div>' : ''}
+            </div>
+        </div>
+    `).join('');
+}
+
+// ===== FUNCTION: OPEN CONVERSATION =====
+function openConversation(id) {
+    const conv = conversations.find(c => c.id === id);
+    if (!conv) return;
+    
+    currentConversationId = id;
+    conv.unread = false;
+    
+    // Update conversation list
+    displayConversations();
+    
+    // Show chat header
+    chatHeader.innerHTML = `
+        <h4>${conv.name}</h4>
+        <p>Online</p>
+    `;
+    
+    // Show messages
+    chatMessages.innerHTML = conv.messages.map(msg => `
+        <div class="message ${msg.sender === 'me' ? 'sent' : 'received'}">
+            ${msg.text}
+            <span class="msg-time">${msg.time}</span>
+        </div>
+    `).join('');
+    
+    // Show input area
+    chatInputArea.style.display = 'flex';
+    
+    // Scroll to bottom
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    // Update notification badge
+    updateNotifBadge();
+}
+
+// ===== FUNCTION: SEND MESSAGE =====
+function sendMessage() {
+    const text = messageInput.value.trim();
+    if (!text || !currentConversationId) return;
+    
+    const conv = conversations.find(c => c.id === currentConversationId);
+    if (!conv) return;
+    
+    const now = new Date();
+    const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+    // Add message
+    conv.messages.push({
+        id: conv.messages.length + 1,
+        text: text,
+        sender: 'me',
+        time: time
+    });
+    conv.lastMessage = text;
+    conv.time = time;
+    
+    // Clear input
+    messageInput.value = '';
+    
+    // Refresh chat
+    openConversation(currentConversationId);
+    
+    // Auto-reply after 1 second (simulated)
+    setTimeout(() => {
+        conv.messages.push({
+            id: conv.messages.length + 1,
+            text: "Thanks for your message! I'll get back to you soon.",
+            sender: 'them',
+            time: time
+        });
+        conv.lastMessage = "Thanks for your message! I'll get back to you soon.";
+        
+        // Add notification
+        notifications.unshift({
+            id: notifications.length + 1,
+            type: "message",
+            icon: "fa-envelope",
+            title: "New Message",
+            message: `${conv.name} replied to you`,
+            time: "Just now",
+            read: false
+        });
+        
+        if (currentConversationId === conv.id) {
+            openConversation(conv.id);
+        }
+        displayConversations();
+        updateNotifBadge();
+    }, 1500);
+}
+
+// ===== FUNCTION: SHOW NOTIFICATIONS =====
+function showNotifications() {
+    hideAllSections();
+    notificationsSection.style.display = 'block';
+    displayNotifications();
+    window.scrollTo(0, 0);
+}
+
+// ===== FUNCTION: DISPLAY NOTIFICATIONS =====
+function displayNotifications() {
+    const list = document.getElementById('notificationsList');
+    
+    if (notifications.length === 0) {
+        list.innerHTML = `
+            <div class="no-orders">
+                <i class="fas fa-bell-slash"></i>
+                <h3>No Notifications</h3>
+                <p>You're all caught up!</p>
+            </div>
+        `;
+        return;
+    }
+    
+    list.innerHTML = notifications.map(n => `
+        <div class="notification-item ${n.read ? '' : 'unread'}">
+            <div class="notif-icon"><i class="fas ${n.icon}"></i></div>
+            <div class="notif-content">
+                <h4>${n.title}</h4>
+                <p>${n.message}</p>
+            </div>
+            <div class="notif-time">${n.time}</div>
+        </div>
+    `).join('');
+}
+
+// ===== FUNCTION: MARK ALL READ =====
+function markAllRead() {
+    notifications.forEach(n => n.read = true);
+    displayNotifications();
+    updateNotifBadge();
+    alert('All notifications marked as read!');
+}
+
+// ===== FUNCTION: UPDATE NOTIFICATION BADGE =====
+function updateNotifBadge() {
+    const unreadCount = notifications.filter(n => !n.read).length;
+    if (unreadCount > 0) {
+        notifBadge.textContent = unreadCount;
+        notifBadge.style.display = 'inline-block';
+    } else {
+        notifBadge.style.display = 'none';
+    }
+}
+
+// ===== FUNCTION: SHOW REVIEWS =====
+function showReviews(orderId) {
+    hideAllSections();
+    reviewsSection.style.display = 'block';
+    
+    if (orderId) {
+        const order = orders.find(o => o.id === orderId);
+        if (order) {
+            document.getElementById('reviewOrderId').value = orderId;
+            document.getElementById('reviewProjectName').textContent = `Reviewing: ${order.title}`;
+        }
+        document.getElementById('writeReviewContainer').style.display = 'block';
+    } else {
+        document.getElementById('writeReviewContainer').style.display = 'none';
+    }
+    
+    displayReviews();
+    window.scrollTo(0, 0);
+}
+
+// ===== FUNCTION: DISPLAY REVIEWS =====
+function displayReviews() {
+    const list = document.getElementById('reviewsList');
+    
+    if (reviews.length === 0) {
+        list.innerHTML = `<p style="color:#94a3b8;text-align:center;">No reviews yet.</p>`;
+        return;
+    }
+    
+    list.innerHTML = reviews.map(r => `
+        <div class="review-card">
+            <div class="review-header">
+                <div class="review-avatar">${r.avatar}</div>
+                <div class="review-info">
+                    <h4>${r.reviewer}</h4>
+                    <div class="review-stars">
+                        ${'<i class="fas fa-star"></i>'.repeat(r.rating)}
+                        ${'<i class="far fa-star"></i>'.repeat(5 - r.rating)}
+                    </div>
+                    <div class="review-date">${r.date}</div>
+                </div>
+            </div>
+            <p class="review-text">${r.text}</p>
+        </div>
+    `).join('');
+}
+
+// ===== FUNCTION: SET RATING =====
+function setRating(rating) {
+    selectedRating = rating;
+    const stars = document.querySelectorAll('#starRating i');
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.classList.remove('far');
+            star.classList.add('fas', 'active');
+        } else {
+            star.classList.remove('fas', 'active');
+            star.classList.add('far');
+        }
+    });
+    
+    const texts = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+    document.getElementById('ratingText').textContent = texts[rating];
+}
+
+// ===== FUNCTION: SUBMIT REVIEW =====
+function submitReview() {
+    const orderId = parseInt(document.getElementById('reviewOrderId').value);
+    const text = document.getElementById('reviewText').value.trim();
+    
+    if (selectedRating === 0) {
+        alert('Please select a rating.');
+        return;
+    }
+    
+    if (!text) {
+        alert('Please write a review.');
+        return;
+    }
+    
+    const order = orders.find(o => o.id === orderId);
+    
+    reviews.unshift({
+        id: nextReviewId++,
+        reviewer: "You",
+        avatar: "ME",
+        rating: selectedRating,
+        text: text,
+        date: new Date().toISOString().split('T')[0]
+    });
+    
+    // Add notification
+    notifications.unshift({
+        id: notifications.length + 1,
+        type: "review",
+        icon: "fa-star",
+        title: "Review Submitted",
+        message: "Your review was submitted successfully!",
+        time: "Just now",
+        read: false
+    });
+    
+    alert('Review submitted successfully!');
+    
+    // Reset
+    selectedRating = 0;
+    document.getElementById('reviewText').value = '';
+    document.querySelectorAll('#starRating i').forEach(star => {
+        star.classList.remove('fas', 'active');
+        star.classList.add('far');
+    });
+    document.getElementById('ratingText').textContent = 'Select rating';
+    
+    displayReviews();
+    updateNotifBadge();
+}
+
+// EVENT: ENTER KEY TO SEND MESSAGE 
+messageInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+});
+
+//  UPDATE HIDE ALL SECTIONS 
+const originalHideAllSectionsWeek6 = hideAllSections;
+hideAllSections = function() {
+    document.querySelectorAll('.hero, .categories, .features, .about, .footer, .freelancers-section').forEach(el => {
+        if (el) el.style.display = 'none';
+    });
+    
+    document.getElementById('userProfile').style.display = 'none';
+    document.getElementById('editProfile').style.display = 'none';
+    document.getElementById('myServices').style.display = 'none';
+    document.getElementById('createService').style.display = 'none';
+    document.getElementById('serviceDetails').style.display = 'none';
+    
+    findJobsSection.style.display = 'none';
+    jobDetailsSection.style.display = 'none';
+    postJobSection.style.display = 'none';
+    submitProposalSection.style.display = 'none';
+    myProposalsSection.style.display = 'none';
+    
+    myOrdersSection.style.display = 'none';
+    orderDetailsSection.style.display = 'none';
+    createOrderSection.style.display = 'none';
+    deliverySection.style.display = 'none';
+    
+    messagesSection.style.display = 'none';
+    notificationsSection.style.display = 'none';
+    reviewsSection.style.display = 'none';
+};
+
+// ===== INITIAL NOTIFICATION BADGE =====
+updateNotifBadge();
