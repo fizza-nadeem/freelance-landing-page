@@ -1721,3 +1721,365 @@ body {
         justify-content: center;
     }
 }
+/* ========================================== */
+/* ===== WEEK 6: MESSAGES & REVIEWS ========= */
+/* ========================================== */
+
+/* ===== MESSAGES SECTION ===== */
+.messages-section {
+    padding: 120px 20px 80px;
+    background: #f8fafc;
+    min-height: 100vh;
+}
+
+.messages-layout {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+    min-height: 500px;
+}
+
+/* ===== CONVERSATION LIST ===== */
+.conversation-list {
+    border-right: 1px solid #e2e8f0;
+    overflow-y: auto;
+    max-height: 600px;
+}
+
+.conversation-item {
+    display: flex;
+    gap: 12px;
+    padding: 15px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background 0.2s ease;
+}
+
+.conversation-item:hover {
+    background: #f8fafc;
+}
+
+.conversation-item.active {
+    background: #eff6ff;
+    border-left: 3px solid #2563eb;
+}
+
+.conversation-item .conv-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #dbeafe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #2563eb;
+    flex-shrink: 0;
+}
+
+.conversation-item .conv-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.conversation-item .conv-info h4 {
+    font-size: 15px;
+    color: #1e293b;
+    margin-bottom: 3px;
+}
+
+.conversation-item .conv-info p {
+    font-size: 13px;
+    color: #94a3b8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.conversation-item .conv-meta {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.conversation-item .conv-time {
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+.conversation-item .unread-dot {
+    width: 10px;
+    height: 10px;
+    background: #2563eb;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+/* ===== CHAT WINDOW ===== */
+.chat-window {
+    display: flex;
+    flex-direction: column;
+    max-height: 600px;
+}
+
+.chat-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+}
+
+.chat-header h4 {
+    color: #1e293b;
+}
+
+.chat-header p {
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.message.sent {
+    align-self: flex-end;
+    background: #2563eb;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.message.received {
+    align-self: flex-start;
+    background: #f1f5f9;
+    color: #1e293b;
+    border-bottom-left-radius: 4px;
+}
+
+.message .msg-time {
+    font-size: 11px;
+    opacity: 0.7;
+    display: block;
+    margin-top: 4px;
+}
+
+.chat-input-area {
+    display: flex;
+    padding: 15px 20px;
+    border-top: 1px solid #e2e8f0;
+    gap: 10px;
+}
+
+.chat-input-area input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 25px;
+    outline: none;
+    font-size: 14px;
+}
+
+.chat-input-area input:focus {
+    border-color: #2563eb;
+}
+
+.send-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    flex-shrink: 0;
+}
+
+.send-btn:hover {
+    background: #1e40af;
+}
+
+/* ===== NOTIFICATIONS ===== */
+.notifications-section {
+    padding: 120px 20px 80px;
+    background: #f8fafc;
+    min-height: 100vh;
+}
+
+.notif-badge {
+    background: #dc2626;
+    color: white;
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin-left: 5px;
+    font-weight: 700;
+}
+
+.notifications-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.notification-item {
+    display: flex;
+    gap: 15px;
+    padding: 18px 20px;
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+}
+
+.notification-item.unread {
+    background: #eff6ff;
+    border-left: 4px solid #2563eb;
+}
+
+.notification-item .notif-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #dbeafe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2563eb;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.notification-item .notif-content {
+    flex: 1;
+}
+
+.notification-item .notif-content h4 {
+    font-size: 15px;
+    color: #1e293b;
+    margin-bottom: 3px;
+}
+
+.notification-item .notif-content p {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.notification-item .notif-time {
+    font-size: 12px;
+    color: #94a3b8;
+    flex-shrink: 0;
+}
+
+/* ===== REVIEWS ===== */
+.reviews-section {
+    padding: 120px 20px 80px;
+    background: #f8fafc;
+    min-height: 100vh;
+}
+
+.star-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.star-rating i {
+    font-size: 32px;
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.star-rating i.active {
+    color: #f59e0b;
+}
+
+.review-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid #e2e8f0;
+    max-width: 700px;
+}
+
+.review-card .review-header {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 12px;
+    align-items: center;
+}
+
+.review-card .review-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #dbeafe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #2563eb;
+    flex-shrink: 0;
+}
+
+.review-card .review-info h4 {
+    font-size: 15px;
+    color: #1e293b;
+}
+
+.review-card .review-info .review-stars {
+    color: #f59e0b;
+    font-size: 14px;
+}
+
+.review-card .review-info .review-date {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.review-card .review-text {
+    color: #475569;
+    line-height: 1.6;
+}
+
+/* ===== RESPONSIVE ===== */
+@media screen and (max-width: 768px) {
+    .messages-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .conversation-list {
+        max-height: 250px;
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .chat-window {
+        max-height: 400px;
+    }
+    
+    .message {
+        max-width: 85%;
+    }
+}
