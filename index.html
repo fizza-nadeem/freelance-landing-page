@@ -15,12 +15,15 @@
     <li><a href="#" onclick="showFindFreelancers()">Find Freelancers</a></li>
     <li><a href="#" onclick="showFindJobs()">Find Jobs</a></li>
     <li><a href="#" onclick="showMyOrders()">My Orders</a></li>
+    <li><a href="#" onclick="showMessages()">Messages</a></li>
+    <li><a href="#" onclick="showNotifications()">Notifications <span class="notif-badge" id="notifBadge">3</span></a></li>
     <li><a href="#" onclick="showProfile()">Profile</a></li>
     <li class="auth-buttons">
         <a href="#" class="btn-login">Login</a>
         <a href="#" class="btn-register">Register</a>
     </li>
 </ul>
+ 
    
             <div class="hamburger" id="hamburger">
                 <i class="fas fa-bars"></i>
@@ -278,12 +281,14 @@
             </div>
             
             <!-- Profile Buttons -->
-        <div class="profile-actions">
+   <div class="profile-actions">
     <button class="btn-primary" onclick="showEditProfile()">Edit Profile</button>
     <button class="btn-secondary" onclick="showMyServices()">My Services</button>
     <button class="btn-secondary" onclick="showCreateService()">Create Service</button>
     <button class="btn-secondary" onclick="showMyProposals()">My Proposals</button>
     <button class="btn-secondary" onclick="showMyOrders()">My Orders</button>
+    <button class="btn-secondary" onclick="showMessages()">Messages</button>
+    <button class="btn-secondary" onclick="showNotifications()">Notifications</button>
     <button class="btn-secondary" onclick="showHome()">Back to Home</button>
 </div>
         </div>
@@ -692,9 +697,8 @@
     </div>
 </section>
 
-<!-- ========================================== -->
-<!-- ========== DELIVERY SUBMISSION =========== -->
-<!-- ========================================== -->
+<!--  DELIVERY SUBMISSION  -->
+
 <section class="delivery-section" id="deliverySection" style="display: none;">
     <div class="container">
         <button class="back-btn" onclick="showMyOrders()"><i class="fas fa-arrow-left"></i> Back to Orders</button>
@@ -720,6 +724,105 @@
                     <button type="button" class="btn-secondary" onclick="showMyOrders()">Cancel</button>
                 </div>
             </form>
+        </div>
+    </div>
+</section>
+<!-- ========================================== -->
+<!-- ========== MESSAGES SECTION ============== -->
+<!-- ========================================== -->
+<section class="messages-section" id="messages" style="display: none;">
+    <div class="container">
+        <h2 class="section-title">Messages</h2>
+        
+        <div class="messages-layout">
+            <!-- ===== CONVERSATION LIST ===== -->
+            <div class="conversation-list" id="conversationList">
+                <!-- Conversations will be loaded by JavaScript -->
+            </div>
+            
+            <!-- ===== CHAT WINDOW ===== -->
+            <div class="chat-window" id="chatWindow">
+                <div class="chat-header" id="chatHeader">
+                    <p style="color:#94a3b8;text-align:center;padding:40px;">Select a conversation to start chatting</p>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages will appear here -->
+                </div>
+                <div class="chat-input-area" id="chatInputArea" style="display: none;">
+                    <input type="text" id="messageInput" placeholder="Type a message...">
+                    <button class="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="profile-actions" style="margin-top: 30px;">
+            <button class="btn-secondary" onclick="showProfile()">Back to Profile</button>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================== -->
+<!-- ========== NOTIFICATIONS SECTION ========= -->
+<!-- ========================================== -->
+<section class="notifications-section" id="notifications" style="display: none;">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Notifications</h2>
+            <button class="btn-small btn-edit" onclick="markAllRead()">Mark All Read</button>
+        </div>
+        
+        <div class="notifications-list" id="notificationsList">
+            <!-- Notifications will be loaded by JavaScript -->
+        </div>
+        
+        <div class="profile-actions" style="margin-top: 30px;">
+            <button class="btn-secondary" onclick="showProfile()">Back to Profile</button>
+        </div>
+    </div>
+</section>
+<!--  REVIEWS SECTION  -->
+<section class="reviews-section" id="reviews" style="display: none;">
+    <div class="container">
+        <h2 class="section-title">Reviews & Ratings</h2>
+        
+        <!-- ===== WRITE A REVIEW ===== -->
+        <div class="profile-container" id="writeReviewContainer">
+            <h3 style="margin-bottom:15px;">Rate Your Experience</h3>
+            <p style="color:#64748b;margin-bottom:20px;" id="reviewProjectName"></p>
+            
+            <!-- Star Rating -->
+            <div class="star-rating" id="starRating">
+                <i class="far fa-star" data-rating="1" onclick="setRating(1)"></i>
+                <i class="far fa-star" data-rating="2" onclick="setRating(2)"></i>
+                <i class="far fa-star" data-rating="3" onclick="setRating(3)"></i>
+                <i class="far fa-star" data-rating="4" onclick="setRating(4)"></i>
+                <i class="far fa-star" data-rating="5" onclick="setRating(5)"></i>
+                <span id="ratingText" style="margin-left:10px;color:#64748b;">Select rating</span>
+            </div>
+            
+            <div class="form-group" style="margin-top:20px;">
+                <label for="reviewText">Your Review</label>
+                <textarea id="reviewText" rows="4" placeholder="Share your experience..." required></textarea>
+            </div>
+            
+            <input type="hidden" id="reviewOrderId">
+            
+            <div class="profile-actions">
+                <button class="btn-primary" onclick="submitReview()">Submit Review</button>
+                <button class="btn-secondary" onclick="showMyOrders()">Back to Orders</button>
+            </div>
+        </div>
+        
+        <!-- ===== DISPLAY EXISTING REVIEWS ===== -->
+        <div style="margin-top:40px;">
+            <h3 style="margin-bottom:20px;">Recent Reviews</h3>
+            <div class="reviews-list" id="reviewsList">
+                <!-- Reviews will be loaded by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="profile-actions" style="margin-top: 30px;">
+            <button class="btn-secondary" onclick="showProfile()">Back to Profile</button>
         </div>
     </div>
 </section>
