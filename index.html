@@ -8,26 +8,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!--NAVIGATION BAR -->
- 
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <i class="fas fa-briefcase"></i>
-                <span>FreelanceHub</span>
-            </div>
 
-<ul class="nav-links" id="navLinks">
+    <!--NAVIGATION BAR -->
+ <ul class="nav-links" id="navLinks">
     <li><a href="#" onclick="showHome()">Home</a></li>
     <li><a href="#" onclick="showFindFreelancers()">Find Freelancers</a></li>
     <li><a href="#" onclick="showFindJobs()">Find Jobs</a></li>
+    <li><a href="#" onclick="showMyOrders()">My Orders</a></li>
     <li><a href="#" onclick="showProfile()">Profile</a></li>
-    <li><a href="#" onclick="showHome()">About</a></li>
     <li class="auth-buttons">
         <a href="#" class="btn-login">Login</a>
         <a href="#" class="btn-register">Register</a>
     </li>
 </ul>
+   
             <div class="hamburger" id="hamburger">
                 <i class="fas fa-bars"></i>
             </div>
@@ -284,11 +278,12 @@
             </div>
             
             <!-- Profile Buttons -->
-           <div class="profile-actions">
+        <div class="profile-actions">
     <button class="btn-primary" onclick="showEditProfile()">Edit Profile</button>
     <button class="btn-secondary" onclick="showMyServices()">My Services</button>
     <button class="btn-secondary" onclick="showCreateService()">Create Service</button>
     <button class="btn-secondary" onclick="showMyProposals()">My Proposals</button>
+    <button class="btn-secondary" onclick="showMyOrders()">My Orders</button>
     <button class="btn-secondary" onclick="showHome()">Back to Home</button>
 </div>
         </div>
@@ -449,7 +444,7 @@
             <button class="btn-primary" onclick="showPostJob()">+ Post a Job</button>
         </div>
         
-        <!-- ===== JOB SEARCH & FILTER ===== -->
+        <!-- JOB SEARCH & FILTER  -->
         <div class="filter-bar">
             <div class="search-input-group">
                 <i class="fas fa-search"></i>
@@ -600,6 +595,131 @@
         
         <div class="profile-actions" style="margin-top: 30px;">
             <button class="btn-secondary" onclick="showProfile()">Back to Profile</button>
+        </div>
+    </div>
+</section>
+<!-- ========================================== -->
+<!-- ========== MY ORDERS SECTION ============= -->
+<!-- ========================================== -->
+<section class="my-orders-section" id="myOrders" style="display: none;">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">My Orders</h2>
+            <div class="order-filters">
+                <button class="filter-btn active" onclick="filterOrders('all')">All</button>
+                <button class="filter-btn" onclick="filterOrders('active')">Active</button>
+                <button class="filter-btn" onclick="filterOrders('completed')">Completed</button>
+            </div>
+        </div>
+        
+        <!-- ===== ORDERS GRID ===== -->
+        <div class="orders-grid" id="ordersGrid">
+            <!-- Orders will be loaded by JavaScript -->
+        </div>
+        
+        <div class="profile-actions" style="margin-top: 30px;">
+            <button class="btn-secondary" onclick="showProfile()">Back to Profile</button>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================== -->
+<!-- ========== ORDER DETAILS PAGE ============ -->
+<!-- ========================================== -->
+<section class="order-details-section" id="orderDetails" style="display: none;">
+    <div class="container">
+        <button class="back-btn" onclick="showMyOrders()"><i class="fas fa-arrow-left"></i> Back to Orders</button>
+        <div id="orderDetailsContent">
+            <!-- Order details will be loaded by JavaScript -->
+        </div>
+    </div>
+</section>
+
+<!-- ========================================== -->
+<!-- ========== CREATE ORDER FORM ============= -->
+<!-- ========================================== -->
+<section class="create-order-section" id="createOrder" style="display: none;">
+    <div class="container">
+        <h2 class="section-title">Create New Order</h2>
+        
+        <div class="profile-container">
+            <form id="createOrderForm">
+                <div class="form-group">
+                    <label for="orderTitle">Project Title</label>
+                    <input type="text" id="orderTitle" placeholder="e.g., E-commerce Website Development" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="orderClient">Client Name</label>
+                    <input type="text" id="orderClient" placeholder="e.g., TechCorp Inc." required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="orderFreelancer">Freelancer Name</label>
+                    <input type="text" id="orderFreelancer" placeholder="e.g., Fizza Nadeem" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="orderDescription">Project Description</label>
+                    <textarea id="orderDescription" rows="4" placeholder="Describe the project scope..." required></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="orderBudget">Agreed Price ($)</label>
+                        <input type="number" id="orderBudget" placeholder="e.g., 800" required min="1">
+                    </div>
+                    <div class="form-group half">
+                        <label for="orderDeadline">Deadline (days)</label>
+                        <input type="number" id="orderDeadline" placeholder="e.g., 14" required min="1">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="orderStatus">Initial Status</label>
+                    <select id="orderStatus" required>
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                    </select>
+                </div>
+                
+                <div class="profile-actions">
+                    <button type="submit" class="btn-primary">Create Order</button>
+                    <button type="button" class="btn-secondary" onclick="showMyOrders()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================== -->
+<!-- ========== DELIVERY SUBMISSION =========== -->
+<!-- ========================================== -->
+<section class="delivery-section" id="deliverySection" style="display: none;">
+    <div class="container">
+        <button class="back-btn" onclick="showMyOrders()"><i class="fas fa-arrow-left"></i> Back to Orders</button>
+        <h2 class="section-title">Submit Delivery</h2>
+        <p class="section-subtitle" id="deliveryOrderTitle"></p>
+        
+        <div class="profile-container">
+            <form id="deliveryForm">
+                <input type="hidden" id="deliveryOrderId">
+                
+                <div class="form-group">
+                    <label for="deliveryMessage">Delivery Message</label>
+                    <textarea id="deliveryMessage" rows="4" placeholder="Describe what you've delivered..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="deliveryLink">Delivery Link (optional)</label>
+                    <input type="url" id="deliveryLink" placeholder="e.g., https://github.com/yourproject">
+                </div>
+                
+                <div class="profile-actions">
+                    <button type="submit" class="btn-primary">Submit Delivery</button>
+                    <button type="button" class="btn-secondary" onclick="showMyOrders()">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
 </section>
