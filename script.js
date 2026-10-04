@@ -1,64 +1,25 @@
-//  HAMBURGER MENU TOGGLE
-// Get the hamburger menu and nav links elements
+// ==========================================
+// ===== WEEK 1: HAMBURGER MENU & NAV =======
+// ==========================================
+
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('navLinks');
 
-// When someone clicks the hamburger icon...
 hamburger.addEventListener('click', function() {
-    // Toggle the "active" class on navLinks
-    // If "active" exists, remove it. If it doesn't exist, add it.
     navLinks.classList.toggle('active');
 });
 
-// CLOSE MENU WHEN A LINK IS CLICKED 
-// Get all navigation links
 const navItems = document.querySelectorAll('.nav-links li a');
-
-// Loop through each link
 navItems.forEach(function(link) {
-    // When a link is clicked...
     link.addEventListener('click', function() {
-        // Remove the "active" class (close the menu)
         navLinks.classList.remove('active');
     });
 });
 
-// SMOOTH SCROLLING FOR NAV LINKS 
-// Get all links that start with "#" (same-page links)
-document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-    anchor.addEventListener('click', function(e) {
-        // Prevent default jump behavior
-        e.preventDefault();
-        
-        // Get the target element (what the link points to)
-        const target = document.querySelector(this.getAttribute('href'));
-        
-        if (target) {
-            // Smoothly scroll to the target
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
+// ==========================================
+// ===== WEEK 2: FREELANCER DATA & UI =======
+// ==========================================
 
-//  STICKY NAVBAR SHADOW ON SCROLL 
-window.addEventListener('scroll', function() {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 50) {
-        navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
-    } else {
-        navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-    }
-});
-
-//  CONSOLE WELCOME MESSAGE 
-console.log(' Welcome to FreelanceHub!');
-console.log(' You built this page! Amazing work!');
-//  WEEK 2: FREELANCER DATA & UI 
-
-//  SAMPLE FREELANCER DATA
 const freelancers = [
     {
         id: 1,
@@ -69,7 +30,8 @@ const freelancers = [
         rating: 4.9,
         reviews: 127,
         description: "Full stack developer with 5 years of experience in React, Node.js, and MongoDB. I build fast, responsive web applications from scratch.",
-        avatar: "AH"
+        avatar: "AH",
+        dateAdded: "2026-09-01"
     },
     {
         id: 2,
@@ -80,7 +42,8 @@ const freelancers = [
         rating: 4.8,
         reviews: 98,
         description: "Creative designer specializing in branding, UI/UX design, and illustration. I help businesses look professional and stand out.",
-        avatar: "SM"
+        avatar: "SM",
+        dateAdded: "2026-09-03"
     },
     {
         id: 3,
@@ -91,7 +54,8 @@ const freelancers = [
         rating: 4.7,
         reviews: 83,
         description: "Experienced mobile developer building apps for iOS and Android using React Native and Flutter. I create smooth, high-quality apps.",
-        avatar: "UK"
+        avatar: "UK",
+        dateAdded: "2026-09-05"
     },
     {
         id: 4,
@@ -102,7 +66,8 @@ const freelancers = [
         rating: 4.9,
         reviews: 56,
         description: "Data analyst with expertise in Python, SQL, Power BI, and Tableau. I turn raw data into actionable insights.",
-        avatar: "FA"
+        avatar: "FA",
+        dateAdded: "2026-08-28"
     },
     {
         id: 5,
@@ -113,7 +78,8 @@ const freelancers = [
         rating: 4.6,
         reviews: 112,
         description: "Digital marketer specializing in SEO, content marketing, and social media management. I help businesses grow their online presence.",
-        avatar: "AR"
+        avatar: "AR",
+        dateAdded: "2026-09-02"
     },
     {
         id: 6,
@@ -124,11 +90,266 @@ const freelancers = [
         rating: 4.8,
         reviews: 64,
         description: "Video editor with 4 years of experience in motion graphics, video editing, and animation. I create engaging video content.",
-        avatar: "ZA"
+        avatar: "ZA",
+        dateAdded: "2026-08-30"
     }
 ];
 
-// DOM ELEMENTS 
+// ===== WEEK 7: FAVORITES SYSTEM =====
+let favorites = {
+    freelancers: [],
+    services: []
+};
+
+// Load favorites from localStorage
+function loadFavorites() {
+    const saved = localStorage.getItem('freelanceHub_favorites');
+    if (saved) {
+        try {
+            favorites = JSON.parse(saved);
+        } catch (e) {
+            favorites = { freelancers: [], services: [] };
+        }
+    }
+}
+
+// Save favorites to localStorage
+function saveFavorites() {
+    localStorage.setItem('freelanceHub_favorites', JSON.stringify(favorites));
+    updateFavBadge();
+}
+
+// Update favorites badge
+function updateFavBadge() {
+    const total = favorites.freelancers.length + favorites.services.length;
+    const badge = document.getElementById('favBadge');
+    if (badge) {
+        badge.textContent = total;
+        badge.style.display = total > 0 ? 'inline-block' : 'none';
+    }
+}
+
+// Toggle freelancer favorite
+function toggleFavFreelancer(id, event) {
+    if (event) event.stopPropagation();
+    const index = favorites.freelancers.indexOf(id);
+    if (index > -1) {
+        favorites.freelancers.splice(index, 1);
+    } else {
+        favorites.freelancers.push(id);
+    }
+    saveFavorites();
+    displayFreelancers(filterFreelancers());
+}
+
+// Toggle service favorite
+function toggleFavService(id, event) {
+    if (event) event.stopPropagation();
+    const index = favorites.services.indexOf(id);
+    if (index > -1) {
+        favorites.services.splice(index, 1);
+    } else {
+        favorites.services.push(id);
+    }
+    saveFavorites();
+    displayMyServices();
+}
+
+// Check if freelancer is favorited
+function isFavFreelancer(id) {
+    return favorites.freelancers.includes(id);
+}
+
+// Check if service is favorited
+function isFavService(id) {
+    return favorites.services.includes(id);
+}
+
+// ==========================================
+// ===== WEEK 7: SHOW FAVORITES PAGE =======
+// ==========================================
+
+let currentFavTab = 'freelancers';
+
+function showFavorites() {
+    hideAllSections();
+    document.getElementById('favorites').style.display = 'block';
+    displayFavorites();
+    window.scrollTo(0, 0);
+}
+
+function showFavTab(tab) {
+    currentFavTab = tab;
+    document.querySelectorAll('.fav-tab').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    displayFavorites();
+}
+
+function displayFavorites() {
+    const grid = document.getElementById('favoritesGrid');
+
+    if (currentFavTab === 'freelancers') {
+        const favFreelancers = freelancers.filter(f => favorites.freelancers.includes(f.id));
+
+        if (favFreelancers.length === 0) {
+            grid.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-heart-broken"></i>
+                    <h3>No Favorite Freelancers Yet</h3>
+                    <p>Browse freelancers and click the heart icon to save them here.</p>
+                    <button class="btn-primary" onclick="showFindFreelancers()">Find Freelancers</button>
+                </div>
+            `;
+            return;
+        }
+
+        grid.innerHTML = favFreelancers.map(freelancer => `
+            <div class="freelancer-card" data-id="${freelancer.id}">
+                <button class="fav-btn active" onclick="toggleFavFreelancer(${freelancer.id}, event)" title="Remove from favorites">
+                    <i class="fas fa-heart"></i>
+                </button>
+                <div class="card-header">
+                    <div class="profile-img">${freelancer.avatar}</div>
+                    <div>
+                        <h3>${freelancer.name}</h3>
+                        <div class="service-title">${freelancer.service}</div>
+                    </div>
+                </div>
+                <div class="category-tag">${getCategoryName(freelancer.category)}</div>
+                <div class="card-details">
+                    <div class="price">$${freelancer.price} <span>/ hr</span></div>
+                    <div class="rating">⭐ ${freelancer.rating} <span>(${freelancer.reviews})</span></div>
+                </div>
+                <button class="view-btn" onclick="viewProfile(${freelancer.id})">View Profile</button>
+            </div>
+        `).join('');
+    } else {
+        const favServices = userServices.filter(s => favorites.services.includes(s.id));
+
+        if (favServices.length === 0) {
+            grid.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-heart-broken"></i>
+                    <h3>No Favorite Services Yet</h3>
+                    <p>Save services you like and they'll appear here.</p>
+                    <button class="btn-primary" onclick="showMyServices()">Browse Services</button>
+                </div>
+            `;
+            return;
+        }
+
+        grid.innerHTML = favServices.map(service => `
+            <div class="service-card">
+                <div class="service-header">
+                    <h3>${service.title}</h3>
+                    <span class="service-category">${getCategoryName(service.category)}</span>
+                </div>
+                <p style="color:#64748b;font-size:14px;margin:8px 0;">${service.description.substring(0, 80)}...</p>
+                <div class="service-price">$${service.price} <span>/ hour</span></div>
+                <div class="service-actions">
+                    <button class="btn-small btn-view" onclick="showServiceDetails(${service.id})">View</button>
+                    <button class="btn-small btn-delete" onclick="toggleFavService(${service.id}, event)">Remove</button>
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+// ==========================================
+// ===== WEEK 7: DASHBOARD ==================
+// ==========================================
+
+let currentDashTab = 'freelancer';
+
+function showDashboard() {
+    hideAllSections();
+    document.getElementById('dashboard').style.display = 'block';
+    updateDashboardStats();
+    window.scrollTo(0, 0);
+}
+
+function showDashboardTab(tab) {
+    currentDashTab = tab;
+    document.querySelectorAll('.dash-tab').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    document.getElementById('freelancerDashboard').style.display = tab === 'freelancer' ? 'block' : 'none';
+    document.getElementById('clientDashboard').style.display = tab === 'client' ? 'block' : 'none';
+
+    updateDashboardStats();
+}
+
+function updateDashboardStats() {
+    // Freelancer stats
+    document.getElementById('dashServicesCount').textContent = userServices.length;
+    document.getElementById('dashOrdersCount').textContent = orders.length;
+    document.getElementById('dashProjectsCount').textContent =
+        orders.filter(o => o.status === 'in-progress' || o.status === 'pending').length;
+    document.getElementById('dashEarnings').textContent =
+        '$' + orders.filter(o => o.status === 'completed').reduce((sum, o) => sum + o.budget, 0);
+    document.getElementById('dashRating').textContent = '4.8';
+    document.getElementById('dashMessages').textContent = conversations.length;
+
+    // Client stats
+    document.getElementById('clientJobsCount').textContent = jobs.length;
+    document.getElementById('clientProposalsCount').textContent = proposals.length;
+    document.getElementById('clientOrdersCount').textContent = orders.length;
+    document.getElementById('clientProjectsCount').textContent =
+        orders.filter(o => o.status === 'in-progress').length;
+    document.getElementById('clientFavCount').textContent =
+        favorites.freelancers.length + favorites.services.length;
+    document.getElementById('clientMessages').textContent = conversations.length;
+}
+
+// ==========================================
+// ===== WEEK 7: HERO SEARCH ================
+// ==========================================
+
+let heroSearchType = 'services';
+
+function setSearchType(type) {
+    heroSearchType = type;
+    document.querySelectorAll('.search-tab').forEach(tab => tab.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+function heroSearch() {
+    const query = document.getElementById('heroSearch').value.trim();
+    if (!query) return;
+
+    if (heroSearchType === 'freelancers') {
+        showFindFreelancers();
+        document.getElementById('searchInput').value = query;
+        filterAndSort();
+    } else {
+        showFindJobs();
+        document.getElementById('jobSearchInput').value = query;
+        filterJobs();
+    }
+}
+
+// ==========================================
+// ===== WEEK 7: FILTER BY CATEGORY =========
+// ==========================================
+
+function filterByCategory(category) {
+    showFindFreelancers();
+    document.getElementById('categoryFilter').value = category;
+    filterAndSort();
+}
+
+// ==========================================
+// ===== NAVIGATION FUNCTIONS ===============
+// ==========================================
+
+function showFindFreelancers() {
+    hideAllSections();
+    document.querySelector('.freelancers-section').style.display = 'block';
+    displayFreelancers(freelancers);
+    window.scrollTo(0, 0);
+}
+
+// DOM ELEMENTS
 const freelancersGrid = document.getElementById('freelancersGrid');
 const searchInput = document.getElementById('searchInput');
 const categoryFilter = document.getElementById('categoryFilter');
@@ -137,7 +358,7 @@ const profilePage = document.getElementById('profilePage');
 const profileContent = document.getElementById('profileContent');
 const backBtn = document.getElementById('backBtn');
 
-//FUNCTION: DISPLAY FREELANCERS
+// FUNCTION: DISPLAY FREELANCERS
 function displayFreelancers(data) {
     if (data.length === 0) {
         freelancersGrid.innerHTML = `
@@ -149,9 +370,14 @@ function displayFreelancers(data) {
         `;
         return;
     }
-    
+
     freelancersGrid.innerHTML = data.map(freelancer => `
         <div class="freelancer-card" data-id="${freelancer.id}">
+            <button class="fav-btn ${isFavFreelancer(freelancer.id) ? 'active' : ''}" 
+                    onclick="toggleFavFreelancer(${freelancer.id}, event)" 
+                    title="${isFavFreelancer(freelancer.id) ? 'Remove from favorites' : 'Add to favorites'}">
+                <i class="fas fa-heart"></i>
+            </button>
             <div class="card-header">
                 <div class="profile-img">${freelancer.avatar}</div>
                 <div>
@@ -169,7 +395,7 @@ function displayFreelancers(data) {
     `).join('');
 }
 
-// FUNCTION: GET CATEGORY NAME 
+// FUNCTION: GET CATEGORY NAME
 function getCategoryName(category) {
     const categories = {
         'web': 'Web Development',
@@ -182,42 +408,44 @@ function getCategoryName(category) {
     return categories[category] || category;
 }
 
-//FUNCTION: FILTER AND SORT 
-function filterAndSort() {
+// FUNCTION: FILTER AND SORT
+function filterFreelancers() {
     const searchTerm = searchInput.value.toLowerCase();
     const category = categoryFilter.value;
     const sort = sortFilter.value;
-    
-    // Filter
+
     let filtered = freelancers.filter(f => {
-        const matchesSearch = f.name.toLowerCase().includes(searchTerm) || 
+        const matchesSearch = f.name.toLowerCase().includes(searchTerm) ||
                              f.service.toLowerCase().includes(searchTerm);
         const matchesCategory = category === 'all' || f.category === category;
         return matchesSearch && matchesCategory;
     });
-    
-    // Sort
+
     if (sort === 'price-low') {
         filtered.sort((a, b) => a.price - b.price);
     } else if (sort === 'price-high') {
         filtered.sort((a, b) => b.price - a.price);
     } else if (sort === 'rating') {
         filtered.sort((a, b) => b.rating - a.rating);
+    } else if (sort === 'newest') {
+        filtered.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
     }
-    
-    displayFreelancers(filtered);
+
+    return filtered;
 }
 
-// FUNCTION: VIEW PROFILE 
+function filterAndSort() {
+    displayFreelancers(filterFreelancers());
+}
+
+// FUNCTION: VIEW PROFILE
 function viewProfile(id) {
     const freelancer = freelancers.find(f => f.id === id);
     if (!freelancer) return;
-    
-    // Hide freelancers grid, show profile
+
     document.querySelector('.freelancers-section').style.display = 'none';
     profilePage.style.display = 'block';
-    
-    // Populate profile
+
     profileContent.innerHTML = `
         <div class="profile-container">
             <div class="profile-header">
@@ -246,33 +474,35 @@ function viewProfile(id) {
                 <p>${freelancer.description}</p>
             </div>
             <br>
-            <button class="btn-primary" style="width:100%; text-align:center; border:none; padding:14px; border-radius:8px; cursor:pointer;">Hire Now</button>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                <button class="btn-primary" style="flex:1;text-align:center;border:none;padding:14px;border-radius:8px;cursor:pointer;">Hire Now</button>
+                <button class="btn-secondary" onclick="toggleFavFreelancer(${freelancer.id}, event); viewProfile(${freelancer.id});" style="flex:1;padding:14px;border-radius:8px;cursor:pointer;border:2px solid #2563eb;background:${isFavFreelancer(freelancer.id) ? '#2563eb' : 'white'};color:${isFavFreelancer(freelancer.id) ? 'white' : '#2563eb'};">
+                    <i class="fas fa-heart"></i> ${isFavFreelancer(freelancer.id) ? 'Saved' : 'Save'}
+                </button>
+            </div>
         </div>
     `;
-    
-    // Scroll to top
+
     window.scrollTo(0, 0);
 }
 
-// FUNCTION: BACK TO FREELANCERS 
+// FUNCTION: BACK TO FREELANCERS
 function goBack() {
     document.querySelector('.freelancers-section').style.display = 'block';
     profilePage.style.display = 'none';
     window.scrollTo(0, 0);
 }
 
-//  EVENT LISTENERS
+// EVENT LISTENERS
 searchInput.addEventListener('input', filterAndSort);
 categoryFilter.addEventListener('change', filterAndSort);
 sortFilter.addEventListener('change', filterAndSort);
 backBtn.addEventListener('click', goBack);
 
-// INITIAL DISPLAY 
-displayFreelancers(freelancers);
+// ==========================================
+// ===== WEEK 3: PROFILE & SERVICES =========
+// ==========================================
 
-//  WEEK 3: PROFILE & SERVICES 
-
-//  USER PROFILE DATA
 let userProfile = {
     name: "Fizza Nadeem",
     title: "Web Developer & Designer",
@@ -282,7 +512,6 @@ let userProfile = {
     experience: "3 years of professional web development experience. Worked with various clients on projects ranging from landing pages to full-stack applications."
 };
 
-// USER SERVICES DATA 
 let userServices = [
     {
         id: 1,
@@ -306,14 +535,12 @@ let userServices = [
 
 let nextServiceId = 3;
 
-//  DOM ELEMENTS 
 const userProfileSection = document.getElementById('userProfile');
 const editProfileSection = document.getElementById('editProfile');
 const myServicesSection = document.getElementById('myServices');
 const createServiceSection = document.getElementById('createService');
 const serviceDetailsSection = document.getElementById('serviceDetails');
 
-// FUNCTION: SHOW PROFILE 
 function showProfile() {
     hideAllSections();
     userProfileSection.style.display = 'block';
@@ -321,11 +548,9 @@ function showProfile() {
     window.scrollTo(0, 0);
 }
 
-// FUNCTION: SHOW EDIT PROFILE 
 function showEditProfile() {
     hideAllSections();
     editProfileSection.style.display = 'block';
-    // Pre-fill form with current profile data
     document.getElementById('editName').value = userProfile.name;
     document.getElementById('editTitle').value = userProfile.title;
     document.getElementById('editCategory').value = userProfile.category;
@@ -335,7 +560,6 @@ function showEditProfile() {
     window.scrollTo(0, 0);
 }
 
-// FUNCTION: SHOW MY SERVICES 
 function showMyServices() {
     hideAllSections();
     myServicesSection.style.display = 'block';
@@ -343,7 +567,6 @@ function showMyServices() {
     window.scrollTo(0, 0);
 }
 
-// FUNCTION: SHOW CREATE SERVICE
 function showCreateService() {
     hideAllSections();
     createServiceSection.style.display = 'block';
@@ -351,14 +574,13 @@ function showCreateService() {
     window.scrollTo(0, 0);
 }
 
-//  FUNCTION: SHOW SERVICE DETAILS 
 function showServiceDetails(id) {
     const service = userServices.find(s => s.id === id);
     if (!service) return;
-    
+
     hideAllSections();
     serviceDetailsSection.style.display = 'block';
-    
+
     document.getElementById('serviceDetailsContent').innerHTML = `
         <div class="profile-container">
             <h2 style="margin-bottom:10px;">${service.title}</h2>
@@ -389,32 +611,23 @@ function showServiceDetails(id) {
     `;
 }
 
-//  FUNCTION: GO BACK TO HOME
-function goBackToHome() {
-    hideAllSections();
-    document.querySelector('.hero').style.display = 'flex';
-    document.querySelector('.categories').style.display = 'block';
-    document.querySelector('.features').style.display = 'block';
-    document.querySelector('.about').style.display = 'block';
-    document.querySelector('.footer').style.display = 'block';
-    document.querySelector('.freelancers-section').style.display = 'block';
-    window.scrollTo(0, 0);
-}
-
-// FUNCTION: HIDE ALL SECTIONS
 function hideAllSections() {
-    document.querySelectorAll('.hero, .categories, .features, .about, .footer, .freelancers-section').forEach(el => {
+    document.querySelectorAll('.hero, .categories, .features, .about, .footer, .freelancers-section, .profile-page').forEach(el => {
         if (el) el.style.display = 'none';
     });
-    
-    userProfileSection.style.display = 'none';
-    editProfileSection.style.display = 'none';
-    myServicesSection.style.display = 'none';
-    createServiceSection.style.display = 'none';
-    serviceDetailsSection.style.display = 'none';
+
+    document.querySelectorAll('section').forEach(el => {
+        if (el.id && el.id !== 'favorites' && el.id !== 'dashboard') {
+            el.style.display = 'none';
+        }
+    });
+
+    const favSec = document.getElementById('favorites');
+    const dashSec = document.getElementById('dashboard');
+    if (favSec) favSec.style.display = 'none';
+    if (dashSec) dashSec.style.display = 'none';
 }
 
-// FUNCTION: UPDATE PROFILE DISPLAY 
 function updateProfileDisplay() {
     document.getElementById('profileAvatar').textContent = userProfile.name.split(' ').map(n => n[0]).join('');
     document.getElementById('profileName').textContent = userProfile.name;
@@ -423,17 +636,16 @@ function updateProfileDisplay() {
     document.getElementById('profileBio').textContent = userProfile.bio;
     document.getElementById('profileExperience').textContent = userProfile.experience;
     document.getElementById('profileServices').textContent = userServices.length;
-    
-    const skillsHTML = userProfile.skills.map(skill => 
+
+    const skillsHTML = userProfile.skills.map(skill =>
         `<span class="skill-tag">${skill}</span>`
     ).join('');
     document.getElementById('profileSkills').innerHTML = skillsHTML;
 }
 
-// FUNCTION: DISPLAY MY SERVICES
 function displayMyServices() {
     const grid = document.getElementById('myServicesGrid');
-    
+
     if (userServices.length === 0) {
         grid.innerHTML = `
             <div class="no-services">
@@ -444,7 +656,7 @@ function displayMyServices() {
         `;
         return;
     }
-    
+
     grid.innerHTML = userServices.map(service => `
         <div class="service-card">
             <div class="service-header">
@@ -462,7 +674,6 @@ function displayMyServices() {
     `).join('');
 }
 
-// FUNCTION: DELETE SERVICE 
 function deleteService(id) {
     if (confirm('Are you sure you want to delete this service?')) {
         userServices = userServices.filter(s => s.id !== id);
@@ -472,55 +683,50 @@ function deleteService(id) {
     }
 }
 
-//FUNCTION: EDIT SERVICE
 function editService(id) {
     const service = userServices.find(s => s.id === id);
     if (!service) return;
-    
-    // Create a simple edit prompt (you can make this more advanced later)
+
     const newTitle = prompt('Edit Service Title:', service.title);
     if (newTitle !== null) service.title = newTitle || service.title;
-    
+
     const newPrice = prompt('Edit Price ($/hour):', service.price);
     if (newPrice !== null) service.price = parseFloat(newPrice) || service.price;
-    
+
     displayMyServices();
     updateProfileDisplay();
     alert('Service updated!');
 }
 
-//  EVENT: EDIT PROFILE FORM SUBMIT 
 document.getElementById('editProfileForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+
     userProfile.name = document.getElementById('editName').value || userProfile.name;
     userProfile.title = document.getElementById('editTitle').value || userProfile.title;
     userProfile.category = document.getElementById('editCategory').value;
     userProfile.bio = document.getElementById('editBio').value || userProfile.bio;
     userProfile.skills = document.getElementById('editSkills').value.split(',').map(s => s.trim()).filter(s => s);
     userProfile.experience = document.getElementById('editExperience').value || userProfile.experience;
-    
+
     alert('Profile updated successfully!');
     showProfile();
 });
 
-//  EVENT: CREATE SERVICE FORM SUBMIT 
 document.getElementById('createServiceForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+
     const title = document.getElementById('serviceTitle').value.trim();
     const category = document.getElementById('serviceCategory').value;
     const description = document.getElementById('serviceDescription').value.trim();
     const price = parseFloat(document.getElementById('servicePrice').value);
     const delivery = parseInt(document.getElementById('serviceDelivery').value);
     const skills = document.getElementById('serviceSkills').value.split(',').map(s => s.trim()).filter(s => s);
-    
-    // Validation
+
     if (!title || !category || !description || !price || !delivery) {
         alert('Please fill in all required fields.');
         return;
     }
-    
+
     const newService = {
         id: nextServiceId++,
         title,
@@ -530,64 +736,16 @@ document.getElementById('createServiceForm').addEventListener('submit', function
         delivery,
         skills: skills.length ? skills : ['General']
     };
-    
+
     userServices.push(newService);
     alert('Service created successfully!');
     showMyServices();
 });
 
-// SHOW PROFILE BY DEFAULT 
-// Hide profile sections initially
-hideAllSections();
-
-// Let's show the home page by default
-document.querySelector('.hero').style.display = 'flex';
-document.querySelector('.categories').style.display = 'block';
-document.querySelector('.features').style.display = 'block';
-document.querySelector('.about').style.display = 'block';
-document.querySelector('.footer').style.display = 'block';
-document.querySelector('.freelancers-section').style.display = 'block';
-
-//  PAGE NAVIGATION (Home vs Profile) 
-
-// This function hides the homepage and shows the Profile page
-function showProfile() {
-    // 1. Hide the entire homepage sections
-    document.querySelector('.hero').style.display = 'none';
-    document.querySelector('.categories').style.display = 'none';
-    document.querySelector('.features').style.display = 'none';
-    document.querySelector('.about').style.display = 'none';
-    document.querySelector('.footer').style.display = 'none';
-    document.querySelector('.freelancers-section').style.display = 'none';
-
-    // 2. Show the Profile page
-    document.getElementById('userProfile').style.display = 'block';
-    
-    // 3. Scroll to the top
-    window.scrollTo(0, 0);
-}
-
-// This function hides the Profile and shows the Homepage
-function showHome() {
-    // 1. Hide the Profile page
-    document.getElementById('userProfile').style.display = 'none';
-
-    // 2. Show all the homepage sections
-    document.querySelector('.hero').style.display = 'flex';
-    document.querySelector('.categories').style.display = 'block';
-    document.querySelector('.features').style.display = 'block';
-    document.querySelector('.about').style.display = 'block';
-    document.querySelector('.footer').style.display = 'block';
-    document.querySelector('.freelancers-section').style.display = 'block';
-    
-    // 3. Scroll to the top
-    window.scrollTo(0, 0);
-}
 // ==========================================
-// ===== WEEK 4: JOBS & PROPOSALS ==========
+// ===== WEEK 4: JOBS & PROPOSALS ===========
 // ==========================================
 
-// ===== SAMPLE JOBS DATA =====
 let jobs = [
     {
         id: 1,
@@ -659,7 +817,6 @@ let jobs = [
 
 let nextJobId = 7;
 
-// ===== PROPOSALS DATA =====
 let proposals = [
     {
         id: 1,
@@ -676,14 +833,12 @@ let proposals = [
 
 let nextProposalId = 2;
 
-// ===== DOM ELEMENTS =====
 const findJobsSection = document.getElementById('findJobs');
 const jobDetailsSection = document.getElementById('jobDetails');
 const postJobSection = document.getElementById('postJob');
 const submitProposalSection = document.getElementById('submitProposal');
 const myProposalsSection = document.getElementById('myProposals');
 
-// ===== FUNCTION: SHOW FIND JOBS =====
 function showFindJobs() {
     hideAllSections();
     findJobsSection.style.display = 'block';
@@ -691,14 +846,13 @@ function showFindJobs() {
     window.scrollTo(0, 0);
 }
 
-// ===== FUNCTION: SHOW JOB DETAILS =====
 function showJobDetails(id) {
     const job = jobs.find(j => j.id === id);
     if (!job) return;
-    
+
     hideAllSections();
     jobDetailsSection.style.display = 'block';
-    
+
     document.getElementById('jobDetailsContent').innerHTML = `
         <div class="profile-container">
             <h2 style="margin-bottom:10px;">${job.title}</h2>
@@ -736,7 +890,6 @@ function showJobDetails(id) {
     window.scrollTo(0, 0);
 }
 
-// ===== FUNCTION: SHOW POST JOB =====
 function showPostJob() {
     hideAllSections();
     postJobSection.style.display = 'block';
@@ -744,11 +897,10 @@ function showPostJob() {
     window.scrollTo(0, 0);
 }
 
-// ===== FUNCTION: SHOW SUBMIT PROPOSAL =====
 function showSubmitProposal(jobId) {
     const job = jobs.find(j => j.id === jobId);
     if (!job) return;
-    
+
     hideAllSections();
     submitProposalSection.style.display = 'block';
     document.getElementById('proposalJobTitle').textContent = `Applying for: ${job.title}`;
@@ -757,7 +909,6 @@ function showSubmitProposal(jobId) {
     window.scrollTo(0, 0);
 }
 
-// ===== FUNCTION: SHOW MY PROPOSALS =====
 function showMyProposals() {
     hideAllSections();
     myProposalsSection.style.display = 'block';
@@ -765,10 +916,9 @@ function showMyProposals() {
     window.scrollTo(0, 0);
 }
 
-// ===== FUNCTION: DISPLAY JOBS =====
 function displayJobs(jobList) {
     const grid = document.getElementById('jobsGrid');
-    
+
     if (jobList.length === 0) {
         grid.innerHTML = `
             <div class="no-jobs">
@@ -779,7 +929,7 @@ function displayJobs(jobList) {
         `;
         return;
     }
-    
+
     grid.innerHTML = jobList.map(job => `
         <div class="job-card">
             <div class="job-header">
@@ -803,10 +953,9 @@ function displayJobs(jobList) {
     `).join('');
 }
 
-// ===== FUNCTION: DISPLAY PROPOSALS =====
 function displayProposals() {
     const list = document.getElementById('proposalsList');
-    
+
     if (proposals.length === 0) {
         list.innerHTML = `
             <div class="no-proposals">
@@ -817,7 +966,7 @@ function displayProposals() {
         `;
         return;
     }
-    
+
     list.innerHTML = proposals.map(p => `
         <div class="proposal-card">
             <div class="proposal-header">
@@ -841,7 +990,6 @@ function displayProposals() {
     `).join('');
 }
 
-// ===== FUNCTION: WITHDRAW PROPOSAL =====
 function withdrawProposal(id) {
     if (confirm('Are you sure you want to withdraw this proposal?')) {
         proposals = proposals.filter(p => p.id !== id);
@@ -850,37 +998,44 @@ function withdrawProposal(id) {
     }
 }
 
-// ===== FUNCTION: FILTER JOBS =====
 function filterJobs() {
     const search = document.getElementById('jobSearchInput').value.toLowerCase();
     const category = document.getElementById('jobCategoryFilter').value;
-    
+    const sort = document.getElementById('jobSortFilter').value;
+
     let filtered = jobs.filter(j => {
         const matchesSearch = j.title.toLowerCase().includes(search) ||
                              j.skills.some(s => s.toLowerCase().includes(search));
         const matchesCategory = category === 'all' || j.category === category;
         return matchesSearch && matchesCategory;
     });
-    
+
+    if (sort === 'budget-low') {
+        filtered.sort((a, b) => a.budget - b.budget);
+    } else if (sort === 'budget-high') {
+        filtered.sort((a, b) => b.budget - a.budget);
+    } else if (sort === 'newest') {
+        filtered.sort((a, b) => new Date(b.postedDate) - new Date(a.postedDate));
+    }
+
     displayJobs(filtered);
 }
 
-// ===== EVENT: POST JOB FORM =====
 document.getElementById('postJobForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+
     const title = document.getElementById('jobTitle').value.trim();
     const category = document.getElementById('jobCategory').value;
     const description = document.getElementById('jobDescription').value.trim();
     const budget = parseFloat(document.getElementById('jobBudget').value);
     const duration = parseInt(document.getElementById('jobDuration').value);
     const skills = document.getElementById('jobSkills').value.split(',').map(s => s.trim()).filter(s => s);
-    
+
     if (!title || !category || !description || !budget || !duration) {
         alert('Please fill in all required fields.');
         return;
     }
-    
+
     const newJob = {
         id: nextJobId++,
         title,
@@ -892,28 +1047,27 @@ document.getElementById('postJobForm').addEventListener('submit', function(e) {
         postedDate: new Date().toISOString().split('T')[0],
         proposals: 0
     };
-    
+
     jobs.push(newJob);
     alert('Job posted successfully!');
     showFindJobs();
 });
 
-// ===== EVENT: SUBMIT PROPOSAL FORM =====
 document.getElementById('submitProposalForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+
     const jobId = parseInt(document.getElementById('proposalJobId').value);
     const job = jobs.find(j => j.id === jobId);
     const coverLetter = document.getElementById('coverLetter').value.trim();
     const price = parseFloat(document.getElementById('proposedPrice').value);
     const delivery = parseInt(document.getElementById('proposedDelivery').value);
     const skills = document.getElementById('proposalSkills').value.split(',').map(s => s.trim()).filter(s => s);
-    
+
     if (!coverLetter || !price || !delivery) {
         alert('Please fill in all required fields.');
         return;
     }
-    
+
     const newProposal = {
         id: nextProposalId++,
         jobId,
@@ -925,45 +1079,22 @@ document.getElementById('submitProposalForm').addEventListener('submit', functio
         status: 'pending',
         submittedDate: new Date().toISOString().split('T')[0]
     };
-    
+
     proposals.push(newProposal);
     job.proposals++;
-    
+
     alert('Proposal submitted successfully!');
     showFindJobs();
 });
 
-// ===== UPDATE HIDE ALL SECTIONS (Include Week 4 sections) =====
-const originalHideAllSections = hideAllSections;
-hideAllSections = function() {
-    document.querySelectorAll('.hero, .categories, .features, .about, .footer, .freelancers-section').forEach(el => {
-        if (el) el.style.display = 'none';
-    });
-    
-    document.getElementById('userProfile').style.display = 'none';
-    document.getElementById('editProfile').style.display = 'none';
-    document.getElementById('myServices').style.display = 'none';
-    document.getElementById('createService').style.display = 'none';
-    document.getElementById('serviceDetails').style.display = 'none';
-    
-    findJobsSection.style.display = 'none';
-    jobDetailsSection.style.display = 'none';
-    postJobSection.style.display = 'none';
-    submitProposalSection.style.display = 'none';
-    myProposalsSection.style.display = 'none';
-};
-
-//  EVENT LISTENERS 
 document.getElementById('jobSearchInput').addEventListener('input', filterJobs);
 document.getElementById('jobCategoryFilter').addEventListener('change', filterJobs);
+document.getElementById('jobSortFilter').addEventListener('change', filterJobs);
 
-// ADD "MY PROPOSALS" LINK TO PROFILE ACTIONS 
-// Update profile buttons to include My Proposals
 // ==========================================
-// ===== WEEK 5: ORDERS & PROJECTS =========
+// ===== WEEK 5: ORDERS & PROJECTS ==========
 // ==========================================
 
-// ===== SAMPLE ORDERS DATA =====
 let orders = [
     {
         id: 1,
@@ -1053,13 +1184,11 @@ let orders = [
 
 let nextOrderId = 5;
 
-// ===== DOM ELEMENTS =====
 const myOrdersSection = document.getElementById('myOrders');
 const orderDetailsSection = document.getElementById('orderDetails');
 const createOrderSection = document.getElementById('createOrder');
 const deliverySection = document.getElementById('deliverySection');
 
-// ===== FUNCTION: SHOW MY ORDERS =====
 function showMyOrders() {
     hideAllSections();
     myOrdersSection.style.display = 'block';
@@ -1067,17 +1196,16 @@ function showMyOrders() {
     window.scrollTo(0, 0);
 }
 
-// ===== FUNCTION: SHOW ORDER DETAILS =====
 function showOrderDetails(id) {
     const order = orders.find(o => o.id === id);
     if (!order) return;
-    
+
     hideAllSections();
     orderDetailsSection.style.display = 'block';
-    
+
     const completedMilestones = order.milestones.filter(m => m.completed).length;
     const totalMilestones = order.milestones.length;
-    
+
     document.getElementById('orderDetailsContent').innerHTML = `
         <div class="profile-container">
             <div class="order-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:15px;">
@@ -1152,13 +1280,13 @@ function showOrderDetails(id) {
             ` : ''}
             
             <div class="profile-actions">
-                ${order.status !== 'completed' && order.status !== 'cancelled' ? 
+                ${order.status !== 'completed' && order.status !== 'cancelled' ?
                     `<button class="btn-primary" onclick="showDeliveryForm(${order.id})">Submit Delivery</button>` : ''}
-                ${order.status === 'pending' ? 
+                ${order.status === 'pending' ?
                     `<button class="btn-small btn-edit" onclick="updateOrderStatus(${order.id}, 'in-progress')">Start Project</button>` : ''}
-                ${order.status === 'in-progress' ? 
+                ${order.status === 'in-progress' ?
                     `<button class="btn-small btn-edit" onclick="updateOrderStatus(${order.id}, 'submitted')">Mark as Submitted</button>` : ''}
-                ${order.status === 'submitted' ? 
+                ${order.status === 'submitted' ?
                     `<button class="btn-small btn-edit" onclick="updateOrderStatus(${order.id}, 'completed')">Mark as Completed</button>` : ''}
                 <button class="btn-secondary" onclick="showMyOrders()">Back to Orders</button>
             </div>
@@ -1167,7 +1295,6 @@ function showOrderDetails(id) {
     window.scrollTo(0, 0);
 }
 
-// ===== FUNCTION: SHOW CREATE ORDER =====
 function showCreateOrder() {
     hideAllSections();
     createOrderSection.style.display = 'block';
@@ -1175,11 +1302,10 @@ function showCreateOrder() {
     window.scrollTo(0, 0);
 }
 
-// ===== FUNCTION: SHOW DELIVERY FORM =====
 function showDeliveryForm(orderId) {
     const order = orders.find(o => o.id === orderId);
     if (!order) return;
-    
+
     hideAllSections();
     deliverySection.style.display = 'block';
     document.getElementById('deliveryOrderTitle').textContent = `Delivering: ${order.title}`;
@@ -1188,10 +1314,9 @@ function showDeliveryForm(orderId) {
     window.scrollTo(0, 0);
 }
 
-// ===== FUNCTION: DISPLAY ORDERS =====
 function displayOrders(orderList) {
     const grid = document.getElementById('ordersGrid');
-    
+
     if (orderList.length === 0) {
         grid.innerHTML = `
             <div class="no-orders">
@@ -1203,7 +1328,7 @@ function displayOrders(orderList) {
         `;
         return;
     }
-    
+
     grid.innerHTML = orderList.map(order => {
         const completedMilestones = order.milestones.filter(m => m.completed).length;
         return `
@@ -1231,9 +1356,9 @@ function displayOrders(orderList) {
                 </p>
                 <div style="display:flex;gap:10px;margin-top:12px;">
                     <button class="btn-small btn-view" onclick="showOrderDetails(${order.id})">View Details</button>
-                    ${order.status === 'pending' ? 
+                    ${order.status === 'pending' ?
                         `<button class="btn-small btn-edit" onclick="updateOrderStatus(${order.id}, 'in-progress')">Start</button>` : ''}
-                    ${order.status === 'in-progress' ? 
+                    ${order.status === 'in-progress' ?
                         `<button class="btn-small btn-edit" onclick="showDeliveryForm(${order.id})">Deliver</button>` : ''}
                 </div>
             </div>
@@ -1241,12 +1366,10 @@ function displayOrders(orderList) {
     }).join('');
 }
 
-// ===== FUNCTION: FILTER ORDERS =====
 function filterOrders(filter) {
-    // Update active button
     document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
     event.target.classList.add('active');
-    
+
     let filtered;
     if (filter === 'all') {
         filtered = orders;
@@ -1255,18 +1378,16 @@ function filterOrders(filter) {
     } else if (filter === 'completed') {
         filtered = orders.filter(o => o.status === 'completed');
     }
-    
+
     displayOrders(filtered);
 }
 
-// ===== FUNCTION: UPDATE ORDER STATUS =====
 function updateOrderStatus(id, newStatus) {
     const order = orders.find(o => o.id === id);
     if (!order) return;
-    
+
     order.status = newStatus;
-    
-    // Update progress based on status
+
     if (newStatus === 'in-progress') {
         order.progress = Math.max(order.progress, 10);
     } else if (newStatus === 'submitted') {
@@ -1275,20 +1396,18 @@ function updateOrderStatus(id, newStatus) {
         order.progress = 100;
         order.milestones.forEach(m => m.completed = true);
     }
-    
+
     alert(`Order status updated to "${newStatus.replace('-', ' ')}"`);
     displayOrders(orders);
-    
-    // If we're on the details page, refresh it
+
     if (orderDetailsSection.style.display === 'block') {
         showOrderDetails(id);
     }
 }
 
-// ===== EVENT: CREATE ORDER FORM =====
 document.getElementById('createOrderForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+
     const title = document.getElementById('orderTitle').value.trim();
     const client = document.getElementById('orderClient').value.trim();
     const freelancer = document.getElementById('orderFreelancer').value.trim();
@@ -1296,12 +1415,12 @@ document.getElementById('createOrderForm').addEventListener('submit', function(e
     const budget = parseFloat(document.getElementById('orderBudget').value);
     const deadline = parseInt(document.getElementById('orderDeadline').value);
     const status = document.getElementById('orderStatus').value;
-    
+
     if (!title || !client || !freelancer || !description || !budget || !deadline) {
         alert('Please fill in all required fields.');
         return;
     }
-    
+
     const newOrder = {
         id: nextOrderId++,
         title,
@@ -1320,26 +1439,25 @@ document.getElementById('createOrderForm').addEventListener('submit', function(e
         ],
         delivery: null
     };
-    
+
     orders.push(newOrder);
     alert('Order created successfully!');
     showMyOrders();
 });
 
-// ===== EVENT: DELIVERY FORM =====
 document.getElementById('deliveryForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+
     const orderId = parseInt(document.getElementById('deliveryOrderId').value);
     const order = orders.find(o => o.id === orderId);
     const message = document.getElementById('deliveryMessage').value.trim();
     const link = document.getElementById('deliveryLink').value.trim();
-    
+
     if (!message) {
         alert('Please describe your delivery.');
         return;
     }
-    
+
     order.delivery = {
         message,
         link: link || null,
@@ -1347,40 +1465,15 @@ document.getElementById('deliveryForm').addEventListener('submit', function(e) {
     };
     order.status = 'submitted';
     order.progress = 90;
-    
+
     alert('Delivery submitted successfully!');
     showOrderDetails(orderId);
 });
 
-// ===== UPDATE HIDE ALL SECTIONS =====
-const originalHideAllSectionsWeek5 = hideAllSections;
-hideAllSections = function() {
-    document.querySelectorAll('.hero, .categories, .features, .about, .footer, .freelancers-section').forEach(el => {
-        if (el) el.style.display = 'none';
-    });
-    
-    document.getElementById('userProfile').style.display = 'none';
-    document.getElementById('editProfile').style.display = 'none';
-    document.getElementById('myServices').style.display = 'none';
-    document.getElementById('createService').style.display = 'none';
-    document.getElementById('serviceDetails').style.display = 'none';
-    
-    findJobsSection.style.display = 'none';
-    jobDetailsSection.style.display = 'none';
-    postJobSection.style.display = 'none';
-    submitProposalSection.style.display = 'none';
-    myProposalsSection.style.display = 'none';
-    
-    myOrdersSection.style.display = 'none';
-    orderDetailsSection.style.display = 'none';
-    createOrderSection.style.display = 'none';
-    deliverySection.style.display = 'none';
-};
 // ==========================================
-// ===== WEEK 6: MESSAGES & REVIEWS ========
+// ===== WEEK 6: MESSAGES & REVIEWS =========
 // ==========================================
 
-// ===== CONVERSATIONS DATA =====
 let conversations = [
     {
         id: 1,
@@ -1427,7 +1520,6 @@ let conversations = [
 
 let currentConversationId = null;
 
-// ===== NOTIFICATIONS DATA =====
 let notifications = [
     {
         id: 1,
@@ -1467,7 +1559,6 @@ let notifications = [
     }
 ];
 
-// ===== REVIEWS DATA =====
 let reviews = [
     {
         id: 1,
@@ -1498,7 +1589,6 @@ let reviews = [
 let nextReviewId = 4;
 let selectedRating = 0;
 
-// ===== DOM ELEMENTS =====
 const messagesSection = document.getElementById('messages');
 const notificationsSection = document.getElementById('notifications');
 const reviewsSection = document.getElementById('reviews');
@@ -1509,7 +1599,6 @@ const chatInputArea = document.getElementById('chatInputArea');
 const messageInput = document.getElementById('messageInput');
 const notifBadge = document.getElementById('notifBadge');
 
-// ===== FUNCTION: SHOW MESSAGES =====
 function showMessages() {
     hideAllSections();
     messagesSection.style.display = 'block';
@@ -1517,7 +1606,6 @@ function showMessages() {
     window.scrollTo(0, 0);
 }
 
-// ===== FUNCTION: DISPLAY CONVERSATIONS =====
 function displayConversations() {
     conversationList.innerHTML = conversations.map(conv => `
         <div class="conversation-item ${conv.unread ? 'unread' : ''} ${currentConversationId === conv.id ? 'active' : ''}" onclick="openConversation(${conv.id})">
@@ -1534,53 +1622,42 @@ function displayConversations() {
     `).join('');
 }
 
-// ===== FUNCTION: OPEN CONVERSATION =====
 function openConversation(id) {
     const conv = conversations.find(c => c.id === id);
     if (!conv) return;
-    
+
     currentConversationId = id;
     conv.unread = false;
-    
-    // Update conversation list
+
     displayConversations();
-    
-    // Show chat header
+
     chatHeader.innerHTML = `
         <h4>${conv.name}</h4>
         <p>Online</p>
     `;
-    
-    // Show messages
+
     chatMessages.innerHTML = conv.messages.map(msg => `
         <div class="message ${msg.sender === 'me' ? 'sent' : 'received'}">
             ${msg.text}
             <span class="msg-time">${msg.time}</span>
         </div>
     `).join('');
-    
-    // Show input area
+
     chatInputArea.style.display = 'flex';
-    
-    // Scroll to bottom
     chatMessages.scrollTop = chatMessages.scrollHeight;
-    
-    // Update notification badge
     updateNotifBadge();
 }
 
-// ===== FUNCTION: SEND MESSAGE =====
 function sendMessage() {
     const text = messageInput.value.trim();
     if (!text || !currentConversationId) return;
-    
+
     const conv = conversations.find(c => c.id === currentConversationId);
     if (!conv) return;
-    
+
     const now = new Date();
     const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    
-    // Add message
+
     conv.messages.push({
         id: conv.messages.length + 1,
         text: text,
@@ -1589,14 +1666,10 @@ function sendMessage() {
     });
     conv.lastMessage = text;
     conv.time = time;
-    
-    // Clear input
+
     messageInput.value = '';
-    
-    // Refresh chat
     openConversation(currentConversationId);
-    
-    // Auto-reply after 1 second (simulated)
+
     setTimeout(() => {
         conv.messages.push({
             id: conv.messages.length + 1,
@@ -1605,8 +1678,7 @@ function sendMessage() {
             time: time
         });
         conv.lastMessage = "Thanks for your message! I'll get back to you soon.";
-        
-        // Add notification
+
         notifications.unshift({
             id: notifications.length + 1,
             type: "message",
@@ -1616,7 +1688,7 @@ function sendMessage() {
             time: "Just now",
             read: false
         });
-        
+
         if (currentConversationId === conv.id) {
             openConversation(conv.id);
         }
@@ -1625,7 +1697,6 @@ function sendMessage() {
     }, 1500);
 }
 
-// ===== FUNCTION: SHOW NOTIFICATIONS =====
 function showNotifications() {
     hideAllSections();
     notificationsSection.style.display = 'block';
@@ -1633,13 +1704,12 @@ function showNotifications() {
     window.scrollTo(0, 0);
 }
 
-// ===== FUNCTION: DISPLAY NOTIFICATIONS =====
 function displayNotifications() {
     const list = document.getElementById('notificationsList');
-    
+
     if (notifications.length === 0) {
         list.innerHTML = `
-            <div class="no-orders">
+            <div class="empty-state">
                 <i class="fas fa-bell-slash"></i>
                 <h3>No Notifications</h3>
                 <p>You're all caught up!</p>
@@ -1647,7 +1717,7 @@ function displayNotifications() {
         `;
         return;
     }
-    
+
     list.innerHTML = notifications.map(n => `
         <div class="notification-item ${n.read ? '' : 'unread'}">
             <div class="notif-icon"><i class="fas ${n.icon}"></i></div>
@@ -1660,7 +1730,6 @@ function displayNotifications() {
     `).join('');
 }
 
-// ===== FUNCTION: MARK ALL READ =====
 function markAllRead() {
     notifications.forEach(n => n.read = true);
     displayNotifications();
@@ -1668,7 +1737,6 @@ function markAllRead() {
     alert('All notifications marked as read!');
 }
 
-// ===== FUNCTION: UPDATE NOTIFICATION BADGE =====
 function updateNotifBadge() {
     const unreadCount = notifications.filter(n => !n.read).length;
     if (unreadCount > 0) {
@@ -1679,11 +1747,10 @@ function updateNotifBadge() {
     }
 }
 
-// ===== FUNCTION: SHOW REVIEWS =====
 function showReviews(orderId) {
     hideAllSections();
     reviewsSection.style.display = 'block';
-    
+
     if (orderId) {
         const order = orders.find(o => o.id === orderId);
         if (order) {
@@ -1694,20 +1761,19 @@ function showReviews(orderId) {
     } else {
         document.getElementById('writeReviewContainer').style.display = 'none';
     }
-    
+
     displayReviews();
     window.scrollTo(0, 0);
 }
 
-// ===== FUNCTION: DISPLAY REVIEWS =====
 function displayReviews() {
     const list = document.getElementById('reviewsList');
-    
+
     if (reviews.length === 0) {
         list.innerHTML = `<p style="color:#94a3b8;text-align:center;">No reviews yet.</p>`;
         return;
     }
-    
+
     list.innerHTML = reviews.map(r => `
         <div class="review-card">
             <div class="review-header">
@@ -1726,7 +1792,6 @@ function displayReviews() {
     `).join('');
 }
 
-// ===== FUNCTION: SET RATING =====
 function setRating(rating) {
     selectedRating = rating;
     const stars = document.querySelectorAll('#starRating i');
@@ -1739,28 +1804,25 @@ function setRating(rating) {
             star.classList.add('far');
         }
     });
-    
+
     const texts = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
     document.getElementById('ratingText').textContent = texts[rating];
 }
 
-// ===== FUNCTION: SUBMIT REVIEW =====
 function submitReview() {
     const orderId = parseInt(document.getElementById('reviewOrderId').value);
     const text = document.getElementById('reviewText').value.trim();
-    
+
     if (selectedRating === 0) {
         alert('Please select a rating.');
         return;
     }
-    
+
     if (!text) {
         alert('Please write a review.');
         return;
     }
-    
-    const order = orders.find(o => o.id === orderId);
-    
+
     reviews.unshift({
         id: nextReviewId++,
         reviewer: "You",
@@ -1769,8 +1831,7 @@ function submitReview() {
         text: text,
         date: new Date().toISOString().split('T')[0]
     });
-    
-    // Add notification
+
     notifications.unshift({
         id: notifications.length + 1,
         type: "review",
@@ -1780,10 +1841,9 @@ function submitReview() {
         time: "Just now",
         read: false
     });
-    
+
     alert('Review submitted successfully!');
-    
-    // Reset
+
     selectedRating = 0;
     document.getElementById('reviewText').value = '';
     document.querySelectorAll('#starRating i').forEach(star => {
@@ -1791,46 +1851,47 @@ function submitReview() {
         star.classList.add('far');
     });
     document.getElementById('ratingText').textContent = 'Select rating';
-    
+
     displayReviews();
     updateNotifBadge();
 }
 
-// EVENT: ENTER KEY TO SEND MESSAGE 
 messageInput.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
         sendMessage();
     }
 });
 
-//  UPDATE HIDE ALL SECTIONS 
-const originalHideAllSectionsWeek6 = hideAllSections;
-hideAllSections = function() {
-    document.querySelectorAll('.hero, .categories, .features, .about, .footer, .freelancers-section').forEach(el => {
-        if (el) el.style.display = 'none';
-    });
-    
-    document.getElementById('userProfile').style.display = 'none';
-    document.getElementById('editProfile').style.display = 'none';
-    document.getElementById('myServices').style.display = 'none';
-    document.getElementById('createService').style.display = 'none';
-    document.getElementById('serviceDetails').style.display = 'none';
-    
-    findJobsSection.style.display = 'none';
-    jobDetailsSection.style.display = 'none';
-    postJobSection.style.display = 'none';
-    submitProposalSection.style.display = 'none';
-    myProposalsSection.style.display = 'none';
-    
-    myOrdersSection.style.display = 'none';
-    orderDetailsSection.style.display = 'none';
-    createOrderSection.style.display = 'none';
-    deliverySection.style.display = 'none';
-    
-    messagesSection.style.display = 'none';
-    notificationsSection.style.display = 'none';
-    reviewsSection.style.display = 'none';
-};
+// ==========================================
+// ===== HOME / INITIAL STATE ===============
+// ==========================================
 
-// ===== INITIAL NOTIFICATION BADGE =====
+function showHome() {
+    hideAllSections();
+
+    document.querySelector('.hero').style.display = 'flex';
+    document.querySelector('.categories').style.display = 'block';
+    document.querySelector('.features').style.display = 'block';
+    document.querySelector('.about').style.display = 'block';
+    document.querySelector('.footer').style.display = 'block';
+
+    window.scrollTo(0, 0);
+}
+
+// ==========================================
+// ===== INITIALIZATION =====================
+// ==========================================
+
+// Load favorites from storage
+loadFavorites();
+updateFavBadge();
 updateNotifBadge();
+
+// Display freelancers initially
+displayFreelancers(freelancers);
+
+// Show home page by default
+showHome();
+
+console.log(' Welcome to FreelanceHub - Week 7 Complete!');
+console.log(' Features: Search, Filters, Sorting, Favorites, Dashboard');
